@@ -1,5 +1,6 @@
 package pokemon.planner
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
@@ -20,6 +21,8 @@ class TeamActivity : AppCompatActivity() {
 
         for (imageButton in listOfPokemonButtons){
             imageButton.setOnClickListener {
+                val intent = Intent(this, PokemonSearcher::class.java)
+                startActivity(intent)
                 //launch pokemon activity
             }
         }
