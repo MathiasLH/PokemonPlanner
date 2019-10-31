@@ -10,7 +10,7 @@ import android.widget.Toast
 import pokemon.planner.R
 import pokemon.planner.model.Team
 
-class teamListAdapter(items: ArrayList<Team>, ctx: Context): ArrayAdapter<Team>(ctx, R.layout.team_list_element, items){
+class TeamListAdapter(items: ArrayList<Team>, ctx: Context): ArrayAdapter<Team>(ctx, R.layout.team_list_element, items){
 
     private class teamListViewHolder{
         internal var name: TextView? = null

@@ -7,19 +7,13 @@ import android.text.InputType
 import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.ListView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
-import pokemon.planner.adapters.teamListAdapter
+import pokemon.planner.adapters.TeamListAdapter
 import pokemon.planner.model.Pokemon
 import pokemon.planner.model.TYPE
 import pokemon.planner.model.Team
 import android.view.ViewGroup
-import androidx.core.app.ComponentActivity
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -45,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         val tl = findViewById<ListView>(R.id.teamList)
 
-        val teamListAdapter = teamListAdapter(teamList, this)
+        val teamListAdapter = TeamListAdapter(teamList, this)
         tl.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             val SelectedItem = parent.getItemAtPosition(position) as Team
             val intent = Intent(this, TeamActivity::class.java)

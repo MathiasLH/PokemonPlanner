@@ -15,7 +15,7 @@ import pokemon.planner.model.TYPE
 
 
 class TypeSelectorAdapter(private val context: Context, private val types: ArrayList<TYPE>) : RecyclerView.Adapter<TypeSelectorAdapter.ViewHolder>() {
-    private var currentType: TYPE = TYPE.NONE
+    var currentType: TYPE = TYPE.NONE
     private var lastPressedType: TYPE? = TYPE.NONE
     private var lastPressedHolder: ViewHolder? = null
 
