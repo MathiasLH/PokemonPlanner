@@ -21,22 +21,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val test1 = Pokemon("henning", 123,1, 2,3, 4, 5,6, TYPE.ELECTRIC, TYPE.BUG)
-        val test2 = Pokemon("biger", 321,1, 2,3, 4, 5,6, TYPE.ELECTRIC, TYPE.DARK)
-        //val team1 = Team(test1, test2, 2,"goodTeam")
-        val team1 = Team("goodTeam")
-        team1.addPokemon(test1, 0)
-        team1.addPokemon(test1, 1)
-        team1.addPokemon(test2, 2)
-
-        val team2 = Team("badteam")
-        team2.addPokemon(test2,1 )
-
+        val pokedexreader = PokedexReader(this)
+        pokedexreader.readFile()
         val teamList = arrayListOf<Team>()
-        teamList.add(team1)
-        teamList.add(team2)
-
         val tl = findViewById<ListView>(R.id.teamList)
 
         val teamListAdapter = TeamListAdapter(teamList, this)
@@ -49,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         tl.adapter = teamListAdapter
 
         val builder = AlertDialog.Builder(this@MainActivity)
-        var teamNameText: EditText?=null
+        var teamNameText: EditText?
         with(builder){
             setTitle("Choose your team name")
             teamNameText = EditText(context)

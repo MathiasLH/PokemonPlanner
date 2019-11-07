@@ -2,13 +2,10 @@ package pokemon.planner.adapters
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.type_selector_element.view.*
 import pokemon.planner.model.TYPE
@@ -32,7 +29,10 @@ class TypeSelectorAdapter(private val context: Context, private val types: Array
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.typeName.setText(types.get(position).toString())
+        holder.typeName.setText(types.get(position).toString().substring(0,3))
+        holder.card.radius = 16f
+        /*holder.card.setCardBackgroundColor(Color.parseColor(types.get(position).color))
+        holder.card.*/
         val unSelected = GradientDrawable()
         val selected = GradientDrawable()
         unSelected.setStroke(5, Color.GRAY)
@@ -42,13 +42,12 @@ class TypeSelectorAdapter(private val context: Context, private val types: Array
         unSelected.setColor(Color.parseColor(types.get(position).color))
         selected.setColor(Color.parseColor(types.get(position).color))
         if(types.get(position).equals(currentType)){
-            holder.typeName.background = selected
+            holder.card.background = selected
         }else{
-            holder.typeName.background = unSelected
+            holder.card.background = unSelected
         }
-
-        holder.typeName.setOnClickListener {
-            holder.typeName.background = selected
+        holder.card.setOnClickListener {
+            holder.card.background = selected
             currentType = types.get(position)
             this.notifyDataSetChanged()
         }
@@ -58,7 +57,7 @@ class TypeSelectorAdapter(private val context: Context, private val types: Array
 
     class ViewHolder (view: View) : RecyclerView.ViewHolder(view){
 
-        val typeName = view.typeName
-        val layout = view.cl
+        val typeName = view.type1Text
+        val card = view.card1
     }
 }
