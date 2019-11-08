@@ -1,8 +1,12 @@
 package pokemon.planner
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.GestureDetector
+import android.view.MotionEvent
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_pokemon_searcher.*
@@ -24,12 +28,25 @@ class SearchResultActivity : AppCompatActivity() {
         searchResultLayoutManager = LinearLayoutManager(this)
         var searchResults = findViewById<RecyclerView>(R.id.resultRecyclerView)
         searchResults.layoutManager = searchResultLayoutManager
-
-
-
-
         searchResults.adapter = SearchResultAdapter(this, searchPokemon(searchForm))
 
+        searchResults.addOnItemTouchListener(RecyclerItemClickListenr(this, searchResults, object : RecyclerItemClickListenr.OnItemClickListener{
+            override fun onItemClick(view: View, position: Int) {
+                startPokemonSummartActivity(position)
+            }
+
+            override fun onItemLongClick(view: View?, position: Int) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+        }))
+
+    }
+
+    fun startPokemonSummartActivity(position: Int){
+        val intent = Intent(this, PokemonSummaryActivity::class.java)
+        intent.putExtra("number", position)
+        startActivity(intent)
     }
 
     fun searchPokemon(searchForm: SearchForm): ArrayList<Pokemon>{
@@ -75,4 +92,47 @@ class SearchResultActivity : AppCompatActivity() {
         }
         return ArrayList(pokemonList2)
     }
+
+    //https://stackoverflow.com/questions/29424944/recyclerview-itemclicklistener-in-kotlin/51223101#51223101
+    class RecyclerItemClickListenr(context: Context, recyclerView: RecyclerView, private val mListener: OnItemClickListener?) : RecyclerView.OnItemTouchListener {
+
+        private val mGestureDetector: GestureDetector
+
+        interface OnItemClickListener {
+            fun onItemClick(view: View, position: Int)
+
+            fun onItemLongClick(view: View?, position: Int)
+        }
+
+        init {
+
+            mGestureDetector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+                override fun onSingleTapUp(e: MotionEvent): Boolean {
+                    return true
+                }
+
+                override fun onLongPress(e: MotionEvent) {
+                    val childView = recyclerView.findChildViewUnder(e.x, e.y)
+
+                    if (childView != null && mListener != null) {
+                        mListener.onItemLongClick(childView, recyclerView.getChildAdapterPosition(childView))
+                    }
+                }
+            })
+        }
+
+        override fun onInterceptTouchEvent(view: RecyclerView, e: MotionEvent): Boolean {
+            val childView = view.findChildViewUnder(e.x, e.y)
+
+            if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
+                mListener.onItemClick(childView, view.getChildAdapterPosition(childView))
+            }
+
+            return false
+        }
+
+        override fun onTouchEvent(view: RecyclerView, motionEvent: MotionEvent) {}
+
+        override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}}
+
 }

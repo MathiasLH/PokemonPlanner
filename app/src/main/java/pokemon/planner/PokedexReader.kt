@@ -1,21 +1,30 @@
 package pokemon.planner
 
 import android.app.Application
+import android.content.ContentValues
 import android.content.Context
+import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Log
+import android.widget.TextView
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 import pokemon.planner.model.Pokemon
 import pokemon.planner.model.TYPE
 import pokemon.planner.model.Pokedex
-import java.io.BufferedReader
-import java.io.File
-import java.io.InputStreamReader
+import java.io.*
+import java.net.HttpURLConnection
 
 class PokedexReader(private val context: Context) {
-    fun readFile() {
+
+
+        fun readFile() {
 
         context.assets.open("pokedex.csv").bufferedReader().use {
             it.readLine()
-            for(i in 0..151){
+            for(i in 0..Pokedex.pokedexSize-1){
                 val line: String? = it.readLine()
                 if(line != null){
                     val pokemon = line.split(",")
@@ -54,6 +63,105 @@ class PokedexReader(private val context: Context) {
             "Dark" -> return TYPE.DARK
             "Fairy" -> return TYPE.FAIRY
             else -> return TYPE.NONE
+        }
+    }
+
+    fun downloadImages(){
+
+        for(pokemon in Pokedex.pokedex){
+            downloadSmallImages(pokemon)
+        }
+        for(pokemon in Pokedex.pokedex){
+            downloadLargeImages(pokemon)
+        }
+
+
+
+    }
+
+    fun loadImages() {
+
+        for(x in 0..Pokedex.smallImages.size-1){
+            Pokedex.smallImages[x] = loadBitmap("small" + (x+1).toString())
+            Pokedex.largeImages[x] = loadBitmap("large" + (x+1).toString())
+        }
+        println("yo")
+    }
+
+    private fun getBitmapFromURL(src: String): Bitmap? {
+        try {
+            val url = java.net.URL(src)
+            val connection = url
+                .openConnection() as HttpURLConnection
+            connection.setDoInput(true)
+            connection.connect()
+            val input = connection.getInputStream()
+            return BitmapFactory.decodeStream(input)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            return null
+        }
+
+    }
+    private fun downloadSmallImages(pokemon: Pokemon) {
+        doAsync {
+            var pokemonNumberWithZeroes: String
+            if(pokemon.number.length == 1){
+                pokemonNumberWithZeroes = "00" + pokemon.number
+            }else if (pokemon.number.length == 2){
+                pokemonNumberWithZeroes = "0" + pokemon.number
+            }else{
+                pokemonNumberWithZeroes = pokemon.number
+            }
+            var url: String = "https://www.serebii.net/pokedex-xy/icon/" + pokemonNumberWithZeroes +".png"
+            saveFile(getBitmapFromURL(url), "small" + pokemon.number)
+            //smallImages.add(Integer.parseInt(pokemon.number)-1, getBitmapFromURL(url))
+            uiThread {
+            }
+        }
+    }
+
+    private fun downloadLargeImages(pokemon: Pokemon) {
+        doAsync {
+            var url: String = "https://www.serebii.net/art/th/"+ pokemon.number + ".png"
+            saveFile(getBitmapFromURL(url), "large"+pokemon.number)
+            Pokedex.largeImages[Integer.parseInt(pokemon.number)-1] = getBitmapFromURL(url)
+            uiThread {
+            }
+        }
+    }
+
+    fun loadBitmap(picName: String): Bitmap? {
+        var b: Bitmap? = null
+        var fis: FileInputStream? = null
+        try {
+            fis = context.openFileInput(picName)
+            b = BitmapFactory.decodeStream(fis)
+        } catch (e: FileNotFoundException) {
+            Log.d(ContentValues.TAG, "file not found")
+            e.printStackTrace()
+        } catch (e: IOException) {
+            Log.d(ContentValues.TAG, "io exception")
+            e.printStackTrace()
+        } finally {
+            fis?.close()
+        }
+        return b
+    }
+
+    fun saveFile(b: Bitmap?, picName: String) {
+        var fos: FileOutputStream? = null
+        try {
+            fos = context.openFileOutput(picName, Context.MODE_PRIVATE)
+            b?.compress(Bitmap.CompressFormat.PNG, 100, fos)
+        } catch (e: FileNotFoundException) {
+            Log.d(ContentValues.TAG, "file not found")
+            e.printStackTrace()
+        } catch (e: IOException) {
+            Log.d(ContentValues.TAG, "io exception")
+            e.printStackTrace()
+        } finally {
+            fos?.close()
         }
     }
 }
