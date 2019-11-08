@@ -1,5 +1,6 @@
 package pokemon.planner
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_pokemon_searcher.*
 import kotlinx.android.synthetic.main.search_result_element.view.*
+import org.jetbrains.anko.startActivityForResult
 import pokemon.planner.adapters.SearchResultAdapter
 import pokemon.planner.model.Pokedex
 import pokemon.planner.model.Pokemon
@@ -47,11 +49,33 @@ class SearchResultActivity : AppCompatActivity() {
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int,  data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+
+        if (resultCode != Activity.RESULT_CANCELED) {
+            if (requestCode == 1) {
+
+                finishSearch(data?.getIntExtra("num", 0))
+            }
+        }
+
+    }
+
+    private fun finishSearch(number: Int?) {
+        var resultIntent =  Intent()
+        setResult(1,resultIntent)
+        resultIntent.putExtra("num", number)
+        finish()
+    }
+
     fun startPokemonSummartActivity(position: Int){
         val intent = Intent(this, PokemonSummaryActivity::class.java)
         intent.putExtra("num", position)
-        startActivity(intent)
+        startActivityForResult(intent, 1)
     }
+
+
 
     fun searchPokemon(searchForm: SearchForm): ArrayList<Pokemon>{
         var pokemonList = ArrayList<Pokemon>()

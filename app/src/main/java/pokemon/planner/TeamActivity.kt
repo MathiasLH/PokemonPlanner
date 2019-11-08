@@ -1,29 +1,48 @@
 package pokemon.planner
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_team.*
+import pokemon.planner.model.Pokedex
 import pokemon.planner.model.Team
 
 class TeamActivity : AppCompatActivity() {
+    private lateinit var team: Team
+    private var lastPressedBall: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_team)
         val intent = getIntent()
-        val team: Team = intent.getSerializableExtra("team") as Team
+        team = intent.getSerializableExtra("team") as Team
         teamName.text = team.name
         createPokeballBar(team)
         var listOfPokemonButtons = arrayOf(pokemon1, pokemon2, pokemon3, pokemon4, pokemon5, pokemon6)
 
-        for (imageButton in listOfPokemonButtons){
-            imageButton.setOnClickListener {
+        for (x in 0..listOfPokemonButtons.size-1){
+            listOfPokemonButtons[x].tag = x.toString()
+            listOfPokemonButtons[x].setOnClickListener {
+                lastPressedBall = Integer.parseInt(listOfPokemonButtons[x].tag as String)
                 val intent = Intent(this, PokemonSearcher::class.java)
-                startActivity(intent)
+                startActivityForResult(intent, 1)
                 //launch pokemon activity
+            }
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int,  data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+
+        if (resultCode != Activity.RESULT_CANCELED) {
+            if (requestCode == 1) {
+                team.pokemonList[lastPressedBall] = Pokedex.pokedex[data!!.getIntExtra("num", 0)]
+                createPokeballBar(team)
             }
         }
 
