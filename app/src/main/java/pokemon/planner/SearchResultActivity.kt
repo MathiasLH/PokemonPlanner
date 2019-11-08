@@ -7,9 +7,11 @@ import android.os.Bundle
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_pokemon_searcher.*
+import kotlinx.android.synthetic.main.search_result_element.view.*
 import pokemon.planner.adapters.SearchResultAdapter
 import pokemon.planner.model.Pokedex
 import pokemon.planner.model.Pokemon
@@ -28,11 +30,13 @@ class SearchResultActivity : AppCompatActivity() {
         searchResultLayoutManager = LinearLayoutManager(this)
         var searchResults = findViewById<RecyclerView>(R.id.resultRecyclerView)
         searchResults.layoutManager = searchResultLayoutManager
-        searchResults.adapter = SearchResultAdapter(this, searchPokemon(searchForm))
+        var filteredListofPokemon = searchPokemon(searchForm)
+        searchResults.adapter = SearchResultAdapter(this, filteredListofPokemon)
 
         searchResults.addOnItemTouchListener(RecyclerItemClickListenr(this, searchResults, object : RecyclerItemClickListenr.OnItemClickListener{
             override fun onItemClick(view: View, position: Int) {
-                startPokemonSummartActivity(position)
+
+                startPokemonSummartActivity(Integer.parseInt(filteredListofPokemon.get(position).number)-1)
             }
 
             override fun onItemLongClick(view: View?, position: Int) {
@@ -45,7 +49,7 @@ class SearchResultActivity : AppCompatActivity() {
 
     fun startPokemonSummartActivity(position: Int){
         val intent = Intent(this, PokemonSummaryActivity::class.java)
-        intent.putExtra("number", position)
+        intent.putExtra("num", position)
         startActivity(intent)
     }
 

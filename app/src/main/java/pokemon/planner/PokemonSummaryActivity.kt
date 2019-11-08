@@ -21,7 +21,7 @@ class PokemonSummaryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pokemon_summary)
-        val number = intent.getIntExtra("number", 0)
+        val number = intent.getIntExtra("num", 0)
         var image = findViewById<ImageView>(R.id.pokemonImage)
         image.setImageBitmap(Pokedex.largeImages.get(number))
         var name = findViewById<TextView>(R.id.pokemonNameLabel)
