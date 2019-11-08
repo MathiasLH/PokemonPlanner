@@ -6,7 +6,8 @@ class Team (
     public val name: String
 ): Serializable{
     //val pokemonList = ArrayList<Pokemon>()
-    val pokemonList = arrayOfNulls<Pokemon>(6)
+    var dummyPokemon = Pokemon("-1", "dummy", intArrayOf(0,0,0,0,0,0,0), TYPE.NONE, TYPE.NONE, "dummy", "dummy", "dummy")
+    val pokemonList = arrayOf(dummyPokemon, dummyPokemon, dummyPokemon, dummyPokemon, dummyPokemon, dummyPokemon)
     fun addPokemon(pokemon: Pokemon, slot: Int){
         this.pokemonList[slot] = pokemon
     }

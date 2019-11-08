@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import kotlinx.android.synthetic.main.activity_pokemon_summary.*
 import org.jetbrains.anko.find
+import pokemon.planner.fragments.PokemonFragment
 import pokemon.planner.model.Pokedex
 import pokemon.planner.model.TYPE
 
@@ -99,8 +100,6 @@ class PokemonSummaryActivity : AppCompatActivity() {
             resultIntent.putExtra("num", number)
             finish()
         }
-
-
     }
 
 
