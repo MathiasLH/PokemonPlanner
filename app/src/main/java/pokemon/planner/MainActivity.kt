@@ -1,6 +1,7 @@
 package pokemon.planner
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
@@ -10,24 +11,36 @@ import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import pokemon.planner.adapters.TeamListAdapter
-import pokemon.planner.model.Pokemon
-import pokemon.planner.model.TYPE
 import pokemon.planner.model.Team
 import android.view.ViewGroup
+import pokemon.planner.model.Pokedex
 
 
 class MainActivity : AppCompatActivity() {
-
+    private var PRIVATE_MODE = 0
+    private val PREF_NAME = "dolphin :^)"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val pokedexreader = PokedexReader(this)
         pokedexreader.readFile()
+        val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
+        val editor = sharedPref.edit()
+        if(sharedPref.getBoolean("init", true)){
+            editor.putBoolean("init", false)
+            editor.apply()
+            pokedexreader.downloadImages()
+        }else{
+
+
+        }
+
         val teamList = arrayListOf<Team>()
         val tl = findViewById<ListView>(R.id.teamList)
 
         val teamListAdapter = TeamListAdapter(teamList, this)
         tl.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+            pokedexreader.loadImages()
             val SelectedItem = parent.getItemAtPosition(position) as Team
             val intent = Intent(this, TeamActivity::class.java)
             intent.putExtra("team", SelectedItem)
@@ -65,7 +78,4 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun createNewTeam(name: String) {
-
-    }
 }

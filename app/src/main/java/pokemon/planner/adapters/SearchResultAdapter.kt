@@ -8,9 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.search_result_element.view.*
-import pokemon.planner.R
 import pokemon.planner.model.Pokemon
 import pokemon.planner.model.TYPE
+import android.graphics.BitmapFactory
+import android.graphics.Bitmap
+import pokemon.planner.R
+import pokemon.planner.model.Pokedex
+import java.io.IOException
+import java.net.HttpURLConnection
+
 
 class SearchResultAdapter(private val context: Context, private val pokedex: ArrayList<Pokemon>): RecyclerView.Adapter<SearchResultAdapter.ViewHolder>(){
 
@@ -56,13 +62,14 @@ class SearchResultAdapter(private val context: Context, private val pokedex: Arr
             holder.card2.background = background2
             holder.card1.background = background1
         }
-
+            holder.image.setImageBitmap(Pokedex.smallImages[Integer.parseInt(pokedex[position].number)-1])
 
     }
 
 
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val cl = view.constraintLayout
         val card1 = view.card1
         val card2 = view.card2
         val image = view.pokemonImage
@@ -71,5 +78,4 @@ class SearchResultAdapter(private val context: Context, private val pokedex: Arr
         val type1 = view.type1Text
         val type2 = view.type2Text
     }
-
 }
