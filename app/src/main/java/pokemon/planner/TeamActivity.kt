@@ -2,30 +2,21 @@ package pokemon.planner
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
+import android.view.View
+import android.widget.ImageButton
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import kotlinx.android.synthetic.main.activity_team.*
 import pokemon.planner.fragments.PokemonFragment
 import pokemon.planner.fragments.TeamFragment
 import pokemon.planner.model.Pokedex
 import pokemon.planner.model.Team
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
-import androidx.core.app.ComponentActivity
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.media.Image
-import android.widget.Button
-import android.widget.ImageButton
 
 
 private const val NUM_PAGES = 7
@@ -34,6 +25,7 @@ class TeamActivity : FragmentActivity() {
     private lateinit var vp: ViewPager
     private lateinit var pagerAdapter: ScreenSlidePagerAdapter
     private lateinit var team: Team
+    private lateinit var listOfPokemonButtons: Array<ImageButton>
     private var lastPressedBall: Int = 0
     private var lastViewedPokemon: Int = 0
 
@@ -43,9 +35,9 @@ class TeamActivity : FragmentActivity() {
         val intent = getIntent()
         team = intent.getSerializableExtra("team") as Team
 
-        createPokeballBar(team)
-        var listOfPokemonButtons = arrayOf(pokemon1, pokemon2, pokemon3, pokemon4, pokemon5, pokemon6)
 
+        listOfPokemonButtons = arrayOf(pokemon1, pokemon2, pokemon3, pokemon4, pokemon5, pokemon6)
+        createPokeballBar(team)
         for (x in 0..listOfPokemonButtons.size-1){
             listOfPokemonButtons[x].tag = x.toString()
             listOfPokemonButtons[x].setOnClickListener {
@@ -127,8 +119,20 @@ class TeamActivity : FragmentActivity() {
     }
 
     fun createPokeballBar(team: Team){
+        var listOfPokemonSprites = arrayOf(pokemon1Sprite, pokemon2Sprite, pokemon3Sprite, pokemon4Sprite, pokemon5Sprite, pokemon6Sprite)
+        for(x in 0..team.pokemonList.size-1){
+            if(!team.pokemonList[x].number.equals("-1")){
+                listOfPokemonButtons[x].setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.open))
+                listOfPokemonSprites[x].visibility = View.VISIBLE
+                listOfPokemonSprites[x].setImageBitmap(Pokedex.smallImages[Integer.parseInt(team.pokemonList[x].number)-1])
+            }else{
+                listOfPokemonButtons[x].setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.closed))
+                listOfPokemonSprites[x].visibility = View.GONE
+            }
+        }
 
-        if(!team.pokemonList[0].number.equals("-1")){
+
+        /*if(!team.pokemonList[0].number.equals("-1")){
             pokemon1.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.closed))
         }else{
             pokemon1.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.plus))
@@ -157,7 +161,7 @@ class TeamActivity : FragmentActivity() {
             pokemon6.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.closed))
         }else{
             pokemon6.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.plus))
-        }
+        }*/
 
     }
 

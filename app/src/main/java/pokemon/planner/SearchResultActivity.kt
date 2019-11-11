@@ -3,24 +3,18 @@ package pokemon.planner
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_pokemon_searcher.*
-import kotlinx.android.synthetic.main.search_result_element.view.*
-import org.jetbrains.anko.startActivityForResult
 import pokemon.planner.adapters.SearchResultAdapter
 import pokemon.planner.model.Pokedex
 import pokemon.planner.model.Pokemon
 import pokemon.planner.model.SearchForm
 import pokemon.planner.model.TYPE
-import java.util.*
-import kotlin.collections.ArrayList
 
 class SearchResultActivity : AppCompatActivity() {
     private lateinit var searchResultLayoutManager: LinearLayoutManager

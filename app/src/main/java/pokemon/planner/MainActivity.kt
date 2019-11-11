@@ -2,20 +2,19 @@ package pokemon.planner
 
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputType
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import pokemon.planner.adapters.TeamListAdapter
-import pokemon.planner.model.Team
-import android.view.ViewGroup
-import com.crashlytics.android.Crashlytics
 import pokemon.planner.io.PokedexReader
 import pokemon.planner.model.Pokedex
+import pokemon.planner.model.Team
 
 
 class MainActivity : AppCompatActivity() {
@@ -67,7 +66,8 @@ class MainActivity : AppCompatActivity() {
             setTitle("Choose your team name")
             teamNameText = EditText(context)
             teamNameText!!.hint="name"
-            teamNameText!!.inputType = InputType.TYPE_CLASS_TEXT
+            teamNameText!!.inputType = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+            //teamNameText!!.inputType = InputType.TYPE_CLASS_TEXT
 
             setPositiveButton("OK"){
                 dialog, whichButton ->

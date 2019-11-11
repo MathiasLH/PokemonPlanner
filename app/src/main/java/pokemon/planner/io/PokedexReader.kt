@@ -7,10 +7,13 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import pokemon.planner.model.Pokedex
 import pokemon.planner.model.Pokemon
 import pokemon.planner.model.TYPE
-import pokemon.planner.model.Pokedex
-import java.io.*
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.net.HttpURLConnection
 
 class PokedexReader(private val context: Context) {

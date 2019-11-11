@@ -7,79 +7,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/pokemon1Image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/pokemon2Image"
-        app:layout_constraintEnd_toStartOf="@+id/pokemon2Image"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pokemon2Image"
-        app:layout_constraintVertical_bias="0.0"
-        tools:srcCompat="@tools:sample/avatars[0]" />
-
-    <ImageView
-        android:id="@+id/pokemon6Image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/pokemon5Image"
-        app:layout_constraintTop_toBottomOf="@+id/teamNameLabel"
-        tools:srcCompat="@tools:sample/avatars[0]" />
-
-    <ImageView
-        android:id="@+id/pokemon5Image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="@+id/pokemon6Image"
-        app:layout_constraintEnd_toStartOf="@+id/pokemon6Image"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/pokemon4Image"
-        app:layout_constraintTop_toTopOf="@+id/pokemon6Image"
-        app:layout_constraintVertical_bias="0.0"
-        tools:srcCompat="@tools:sample/avatars[0]" />
-
-    <ImageView
-        android:id="@+id/pokemon4Image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="@+id/pokemon5Image"
-        app:layout_constraintEnd_toStartOf="@+id/pokemon5Image"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/pokemon3Image"
-        app:layout_constraintTop_toTopOf="@+id/pokemon5Image"
-        app:layout_constraintVertical_bias="0.0"
-        tools:srcCompat="@tools:sample/avatars[0]" />
-
-    <ImageView
-        android:id="@+id/pokemon3Image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="@+id/pokemon4Image"
-        app:layout_constraintEnd_toStartOf="@+id/pokemon4Image"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/pokemon2Image"
-        app:layout_constraintTop_toTopOf="@+id/pokemon4Image"
-        app:layout_constraintVertical_bias="0.0"
-        tools:srcCompat="@tools:sample/avatars[0]" />
-
-    <ImageView
-        android:id="@+id/pokemon2Image"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="@+id/pokemon3Image"
-        app:layout_constraintEnd_toStartOf="@+id/pokemon3Image"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/pokemon1Image"
-        app:layout_constraintTop_toTopOf="@+id/pokemon3Image"
-        app:layout_constraintVertical_bias="0.0"
-        tools:srcCompat="@tools:sample/avatars[0]" />
-
     <TextView
         android:id="@+id/hintLabel"
         android:layout_width="wrap_content"
@@ -107,11 +34,10 @@
         android:id="@+id/divider4"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginTop="8dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pokemon6Image" />
+        tools:layout_editor_absoluteY="147dp" />
 
     <TextView
         android:id="@+id/tempLabel"
