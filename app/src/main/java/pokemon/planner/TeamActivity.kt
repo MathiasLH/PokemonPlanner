@@ -18,6 +18,15 @@ import pokemon.planner.fragments.PokemonFragment
 import pokemon.planner.fragments.TeamFragment
 import pokemon.planner.model.Pokedex
 import pokemon.planner.model.Team
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import androidx.core.app.ComponentActivity
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.media.Image
+import android.widget.Button
+import android.widget.ImageButton
+
 
 private const val NUM_PAGES = 7
 
@@ -26,22 +35,27 @@ class TeamActivity : FragmentActivity() {
     private lateinit var pagerAdapter: ScreenSlidePagerAdapter
     private lateinit var team: Team
     private var lastPressedBall: Int = 0
+    private var lastViewedPokemon: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_team)
         val intent = getIntent()
         team = intent.getSerializableExtra("team") as Team
-        teamName.text = team.name
+
         createPokeballBar(team)
         var listOfPokemonButtons = arrayOf(pokemon1, pokemon2, pokemon3, pokemon4, pokemon5, pokemon6)
 
         for (x in 0..listOfPokemonButtons.size-1){
             listOfPokemonButtons[x].tag = x.toString()
             listOfPokemonButtons[x].setOnClickListener {
-                lastPressedBall = Integer.parseInt(listOfPokemonButtons[x].tag as String)
-                val intent = Intent(this, PokemonSearcher::class.java)
-                startActivityForResult(intent, 1)
+                if(!team.pokemonList[Integer.parseInt(listOfPokemonButtons[x].tag.toString())].number.equals("-1")){
+                    vp.setCurrentItem(x+1, true)
+                }else{
+                    lastPressedBall = Integer.parseInt(listOfPokemonButtons[x].tag as String)
+                    val intent = Intent(this, PokemonSearcher::class.java)
+                    startActivityForResult(intent, 1)
+                }
                 //launch pokemon activity
             }
         }
@@ -51,6 +65,20 @@ class TeamActivity : FragmentActivity() {
 
         vp = findViewById(R.id.vp)
         pagerAdapter = ScreenSlidePagerAdapter(supportFragmentManager)
+        vp.addOnPageChangeListener(object : OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                //openPokeball(position, listOfPokemonButtons)
+            }
+
+            override fun onPageSelected(position: Int) {
+                // Check if this is the page you want.
+            }
+        })
 
         vp.adapter = pagerAdapter
         val updatedAdatper = pagerAdapter
@@ -59,6 +87,18 @@ class TeamActivity : FragmentActivity() {
 
 
     }
+
+    //wip
+    /*private fun openPokeball(position: Int, listOfPokemonButtons: Array<ImageButton>) {
+        if(position > 0){
+            if(lastViewedPokemon != 0){
+                listOfPokemonButtons[lastViewedPokemon].setImageResource(R.drawable.closed)
+            }
+            lastViewedPokemon = position-1
+            listOfPokemonButtons[position-1].setImageResource(R.drawable.open)
+        }
+
+    }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int,  data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -125,7 +165,7 @@ class TeamActivity : FragmentActivity() {
         override fun getCount(): Int = NUM_PAGES
         override fun getItem(position: Int): Fragment {
             when(position){
-             0 -> return TeamFragment()
+             0 -> return TeamFragment(team)
             else -> return PokemonFragment(team.pokemonList[position-1])
             }
         }
