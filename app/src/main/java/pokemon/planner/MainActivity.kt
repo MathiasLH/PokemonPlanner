@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import pokemon.planner.adapters.TeamListAdapter
 import pokemon.planner.model.Team
 import android.view.ViewGroup
+import com.crashlytics.android.Crashlytics
+import pokemon.planner.io.PokedexReader
 import pokemon.planner.model.Pokedex
 
 
@@ -22,6 +24,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+
         val pokedexreader = PokedexReader(this)
         pokedexreader.readFile()
         val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
@@ -37,6 +42,14 @@ class MainActivity : AppCompatActivity() {
 
         val teamList = arrayListOf<Team>()
         val tl = findViewById<ListView>(R.id.teamList)
+
+
+        var team = Team("testTeam")
+        team.addPokemon(Pokedex.pokedex[6], 0)
+        team.addPokemon(Pokedex.pokedex[50], 1)
+        team.addPokemon(Pokedex.pokedex[100], 2)
+
+        teamList.add(team)
 
         val teamListAdapter = TeamListAdapter(teamList, this)
         tl.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->

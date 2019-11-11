@@ -62,6 +62,7 @@ class SearchResultAdapter(private val context: Context, private val pokedex: Arr
             holder.card2.background = background2
             holder.card1.background = background1
         }
+            //DON'T TOUCH
             holder.image.setImageBitmap(Pokedex.smallImages[Integer.parseInt(pokedex[position].number)-1])
 
     }

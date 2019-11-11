@@ -1,5 +1,6 @@
 package pokemon.planner
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -47,9 +48,29 @@ class PokemonSearcher : AppCompatActivity() {
             var searchForm = createSearchForm(tsa.currentType, tsa2.currentType)
             var intent = Intent(this, SearchResultActivity::class.java)
             intent.putExtra("searchForm", searchForm)
-            startActivity(intent)
+            startActivityForResult(intent, 1)
 
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int,  data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+
+        if (resultCode != Activity.RESULT_CANCELED) {
+            if (requestCode == 1) {
+
+                finishSearch(data?.getIntExtra("num", 0))
+            }
+        }
+
+    }
+
+    private fun finishSearch(number: Int?) {
+        var resultIntent =  Intent()
+        setResult(1,resultIntent)
+        resultIntent.putExtra("num", number)
+        finish()
     }
 
     private fun createSearchForm(type1: TYPE, type2: TYPE): SearchForm {

@@ -1,14 +1,10 @@
-package pokemon.planner
+package pokemon.planner.io
 
-import android.app.Application
 import android.content.ContentValues
 import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
-import android.widget.TextView
-import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import pokemon.planner.model.Pokemon

@@ -1,5 +1,7 @@
 package pokemon.planner
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -10,9 +12,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import kotlinx.android.synthetic.main.activity_pokemon_summary.*
-import kotlinx.android.synthetic.main.search_result_element.*
-import kotlinx.android.synthetic.main.search_result_element.numberLabel
 import org.jetbrains.anko.find
+import pokemon.planner.fragments.PokemonFragment
 import pokemon.planner.model.Pokedex
 import pokemon.planner.model.TYPE
 
@@ -21,7 +22,7 @@ class PokemonSummaryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pokemon_summary)
-        val number = intent.getIntExtra("number", 0)
+        val number = intent.getIntExtra("num", 0)
         var image = findViewById<ImageView>(R.id.pokemonImage)
         image.setImageBitmap(Pokedex.largeImages.get(number))
         var name = findViewById<TextView>(R.id.pokemonNameLabel)
@@ -92,5 +93,26 @@ class PokemonSummaryActivity : AppCompatActivity() {
             card2.background = background2
             card1.background = background1
         }
+
+        addButton.setOnClickListener {
+            var resultIntent =  Intent()
+            setResult(1,resultIntent)
+            resultIntent.putExtra("num", number)
+            finish()
+        }
     }
+
+
+
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityReenter(requestCode, data)
+        // Check which request we're responding to
+        if (requestCode == 1) {
+            // Make sure the request was successful
+            if (resultCode == Activity.RESULT_OK) {
+                println("yo")
+            }
+        }
+    }*/
+
 }

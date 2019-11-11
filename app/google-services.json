@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "652096378401",
+    "firebase_url": "https://pokemon-planner.firebaseio.com",
+    "project_id": "pokemon-planner",
+    "storage_bucket": "pokemon-planner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:652096378401:android:4068108d12e8850db43560",
+        "android_client_info": {
+          "package_name": "pokemon.planner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "652096378401-nqe63cjsfqm8bsg4turnqbr4ceub8v32.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFV3pcgXG36HRTOEZw_FbsjsLMSY4dzac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "652096378401-nqe63cjsfqm8bsg4turnqbr4ceub8v32.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
