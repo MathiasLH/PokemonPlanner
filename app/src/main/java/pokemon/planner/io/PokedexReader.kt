@@ -18,8 +18,102 @@ import java.net.HttpURLConnection
 
 class PokedexReader(private val context: Context) {
 
+    fun readPokedexData(){
+        var idArray = Array<String>(Pokedex.pokedexSize) {"-1"}
+        var nameArray = Array<String>(Pokedex.pokedexSize) {"n/a"}
+        var statsArray = Array<IntArray>(Pokedex.pokedexSize) { intArrayOf(0,0,0,0,0,0)}
+        var primaryTypeArray = Array<TYPE>(Pokedex.pokedexSize) {TYPE.NONE}
+        var secondaryTypeArray = Array<TYPE>(Pokedex.pokedexSize) {TYPE.NONE}
+        var primaryAbilityArray = Array<String>(Pokedex.pokedexSize) {"n/a"}
+        var secondaryAbilityArray = Array<String>(Pokedex.pokedexSize) {"n/a"}
 
-        fun readPokedexFile() {
+        //read name and ID of pokemon
+        context.assets.open("pokemon.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..Pokedex.pokedexSize-1){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    idArray[i] = inputArray[0]
+                    nameArray[i] = inputArray[1]
+                }
+            }
+        }
+
+        //read stats of pokemon
+        context.assets.open("pokemon_stats.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..3893){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    statsArray[Integer.parseInt(inputArray[0])-1][Integer.parseInt(inputArray[1])-1] = Integer.parseInt(inputArray[2])
+                }
+            }
+        }
+
+        //read types of pokemon
+        context.assets.open("pokemon_types.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..957){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    if(inputArray[2].equals("1")){
+                        primaryTypeArray[Integer.parseInt(inputArray[0])-1] = typeIDtoTYPE(inputArray[1])
+                    }else{
+                        secondaryTypeArray[Integer.parseInt(inputArray[0])-1] = typeIDtoTYPE(inputArray[1])
+                    }
+                }
+            }
+        }
+
+        //read info about abilities
+        context.assets.open("abilities.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..292){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    Pokedex.abilities[Integer.parseInt(inputArray[0])] = inputArray[1]
+                }
+            }
+        }
+
+        //read abilities of pokemon
+        context.assets.open("pokemon_abilities.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..1598){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    if(inputArray[3].equals("1")){
+                        primaryAbilityArray[Integer.parseInt(inputArray[0])-1] = Pokedex.abilities[Integer.parseInt(inputArray[1])] as String
+                    }else if(inputArray[3].equals("2")){
+                        secondaryAbilityArray[Integer.parseInt(inputArray[0])-1] = Pokedex.abilities[Integer.parseInt(inputArray[1])] as String
+                    }
+                }
+            }
+        }
+
+        for(i in 0..Pokedex.pokedexSize-1){
+            Pokedex.addPokemonToPokedex(Pokemon(idArray[i], nameArray[i], statsArray[i], primaryTypeArray[i], secondaryTypeArray[i], primaryAbilityArray[i], secondaryAbilityArray[i]))
+        }
+        println("yo")
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    /*fun readPokedexFile() {
 
         context.assets.open("pokedex.csv").bufferedReader().use {
             it.readLine()
@@ -65,6 +159,30 @@ class PokedexReader(private val context: Context) {
             }
         }
         println("yo")
+    }*/
+
+    fun typeIDtoTYPE(input: String): TYPE{
+        when(Integer.parseInt(input)){
+            1 -> return TYPE.NORMAL
+            2 -> return TYPE.FIGHTING
+            3 -> return TYPE.FLYING
+            4 -> return TYPE.POISON
+            5 -> return TYPE.GROUND
+            6 -> return TYPE.ROCK
+            7 -> return TYPE.BUG
+            8 -> return TYPE.GHOST
+            9 -> return TYPE.STEEL
+            10 -> return TYPE.FIRE
+            11 -> return TYPE.WATER
+            12 -> return TYPE.GRASS
+            13 -> return TYPE.ELECTRIC
+            14 -> return TYPE.PSYCHIC
+            15 -> return TYPE.ICE
+            16 -> return TYPE.DRAGON
+            17 -> return TYPE.DARK
+            18 -> return TYPE.FAIRY
+            else -> return TYPE.NONE
+        }
     }
 
     fun stringToTYPE(input: String): TYPE {

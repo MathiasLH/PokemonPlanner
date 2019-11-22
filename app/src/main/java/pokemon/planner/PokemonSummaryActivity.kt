@@ -53,8 +53,8 @@ class PokemonSummaryActivity : AppCompatActivity() {
         speedBar.progress = Pokedex.pokedex[number].stats[5]
 
         var totalBar = findViewById<ProgressBar>(R.id.TotalBar)
-        totalBar.max = 700
-        totalBar.progress = Pokedex.pokedex[number].stats[6]
+        val totalStats = Pokedex.pokedex[number].stats[0] + Pokedex.pokedex[number].stats[1] +Pokedex.pokedex[number].stats[2] + Pokedex.pokedex[number].stats[3] + Pokedex.pokedex[number].stats[4] + Pokedex.pokedex[number].stats[5]
+        totalBar.progress = totalStats
 
         var card1 = findViewById<CardView>(R.id.card1)
         var card2 = findViewById<CardView>(R.id.card2)

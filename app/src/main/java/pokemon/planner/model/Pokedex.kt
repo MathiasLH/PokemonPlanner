@@ -6,6 +6,8 @@ import android.graphics.Bitmap
 object Pokedex{
     var pokedexSize = 649
     var pokedex = arrayListOf<Pokemon>()
+    var abilities = mutableMapOf<Int, String>()
+
     var smallImages = Array<Bitmap?>(pokedexSize) {null}
 
     var largeImages = Array<Bitmap?>(pokedexSize) {null}

@@ -65,7 +65,8 @@ class PokemonFragment(private var pokemon: Pokemon): Fragment() {
 
                 var totalBar = view.findViewById<ProgressBar>(R.id.TotalBar)
                 totalBar.max = 700
-                totalBar.progress = pokemon.stats[6]
+                val totalStats = pokemon.stats[0] + pokemon.stats[1] + pokemon.stats[2] + pokemon.stats[3] + pokemon.stats[4] + pokemon.stats[5]
+                totalBar.progress = totalStats
 
                 var card1 = view.findViewById<CardView>(R.id.card1)
                 var card2 = view.findViewById<CardView>(R.id.card2)
