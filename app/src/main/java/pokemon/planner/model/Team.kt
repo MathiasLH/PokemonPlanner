@@ -12,9 +12,9 @@ class Team (
         this.pokemonList[slot] = pokemon
     }
     fun size(): Int{
-        var size: Int = 0
+        var size = 0
         for(pokemon in pokemonList){
-            if(pokemon != null){
+            if(!pokemon.number.equals("-1")){
                 size++
             }
         }

@@ -1,19 +1,17 @@
 package pokemon.planner
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import kotlinx.android.synthetic.main.activity_pokemon_summary.*
 import org.jetbrains.anko.find
-import pokemon.planner.fragments.PokemonFragment
 import pokemon.planner.model.Pokedex
 import pokemon.planner.model.TYPE
 

@@ -1,26 +1,23 @@
 package pokemon.planner.model
 
-import android.content.ContentValues.TAG
-import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
-import java.io.IOException
-import java.net.HttpURLConnection
-import android.content.Context.MODE_PRIVATE
-import android.util.Log
-import java.io.FileInputStream
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
 
 
 object Pokedex{
-    var pokedexSize = 151
+    var pokedexSize = 649
     var pokedex = arrayListOf<Pokemon>()
     var smallImages = Array<Bitmap?>(pokedexSize) {null}
 
     var largeImages = Array<Bitmap?>(pokedexSize) {null}
+
+    //Create two dimensional array. The first index represents each pokemon in the pokedex.
+    //The inner index is then the availability of that pokemon in each game.
+    //Since there are currently 20 games in this app, that is how many lists are created.
+    //The lists are initialized with the value "U" for Unavailable, meaning it cannot be obtained in the game,
+    //for example a generation 2 pokemon will be unavailable in a generation 1 game.
+    //The games in order are:
+    //red, blue, yellow, gold, silver, crystal, ruby, sapphire, firered, leafgreen, emerald, diamond, pearl, platinum, heartgold, soulsilver, black, white, black2, white2
+    var pokemonAvailability = Array<Array<String>>(pokedexSize) {Array<String>(36){"U"} }
 
     fun addPokemonToPokedex(pokemon: Pokemon){
 

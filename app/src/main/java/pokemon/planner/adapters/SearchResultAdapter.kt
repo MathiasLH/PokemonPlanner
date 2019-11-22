@@ -8,14 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.search_result_element.view.*
-import pokemon.planner.model.Pokemon
-import pokemon.planner.model.TYPE
-import android.graphics.BitmapFactory
-import android.graphics.Bitmap
 import pokemon.planner.R
 import pokemon.planner.model.Pokedex
-import java.io.IOException
-import java.net.HttpURLConnection
+import pokemon.planner.model.Pokemon
+import pokemon.planner.model.TYPE
 
 
 class SearchResultAdapter(private val context: Context, private val pokedex: ArrayList<Pokemon>): RecyclerView.Adapter<SearchResultAdapter.ViewHolder>(){

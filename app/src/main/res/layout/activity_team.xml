@@ -90,6 +90,66 @@
         app:layout_constraintTop_toTopOf="@+id/pokemon4"
         app:srcCompat="@drawable/closed" />
 
+    <ImageView
+        android:id="@+id/pokemon1Sprite"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pokemon1"
+        app:layout_constraintEnd_toEndOf="@+id/pokemon1"
+        app:layout_constraintStart_toStartOf="@+id/pokemon1"
+        app:layout_constraintTop_toTopOf="@+id/pokemon1"
+        tools:src="@tools:sample/avatars[0]" />
+
+    <ImageView
+        android:id="@+id/pokemon3Sprite"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pokemon3"
+        app:layout_constraintEnd_toEndOf="@+id/pokemon3"
+        app:layout_constraintStart_toStartOf="@+id/pokemon3"
+        app:layout_constraintTop_toTopOf="@+id/pokemon3"
+        tools:src="@tools:sample/avatars[0]" />
+
+    <ImageView
+        android:id="@+id/pokemon2Sprite"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pokemon2"
+        app:layout_constraintEnd_toEndOf="@+id/pokemon2"
+        app:layout_constraintStart_toStartOf="@+id/pokemon2"
+        app:layout_constraintTop_toTopOf="@+id/pokemon2"
+        tools:src="@tools:sample/avatars[0]" />
+
+    <ImageView
+        android:id="@+id/pokemon4Sprite"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pokemon4"
+        app:layout_constraintEnd_toEndOf="@+id/pokemon4"
+        app:layout_constraintStart_toStartOf="@+id/pokemon4"
+        app:layout_constraintTop_toTopOf="@+id/pokemon4"
+        tools:src="@tools:sample/avatars[0]" />
+
+    <ImageView
+        android:id="@+id/pokemon5Sprite"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pokemon5"
+        app:layout_constraintEnd_toEndOf="@+id/pokemon5"
+        app:layout_constraintStart_toStartOf="@+id/pokemon5"
+        app:layout_constraintTop_toTopOf="@+id/pokemon5"
+        tools:src="@tools:sample/avatars[0]" />
+
+    <ImageView
+        android:id="@+id/pokemon6Sprite"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pokemon6"
+        app:layout_constraintEnd_toEndOf="@+id/pokemon6"
+        app:layout_constraintStart_toStartOf="@+id/pokemon6"
+        app:layout_constraintTop_toTopOf="@+id/pokemon6"
+        tools:src="@tools:sample/avatars[0]" />
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp"
         android:layout_width="match_parent"
@@ -100,6 +160,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0" >
+
+    </androidx.viewpager.widget.ViewPager>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
