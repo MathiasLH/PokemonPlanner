@@ -27,7 +27,8 @@ class MainActivity : AppCompatActivity() {
 
 
         val pokedexreader = PokedexReader(this)
-        pokedexreader.readFile()
+        pokedexreader.readPokedexFile()
+        pokedexreader.readAvailabilityFiles()
         val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
         val editor = sharedPref.edit()
         if(sharedPref.getBoolean("init", true)){

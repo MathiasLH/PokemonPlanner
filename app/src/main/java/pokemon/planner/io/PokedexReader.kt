@@ -19,7 +19,7 @@ import java.net.HttpURLConnection
 class PokedexReader(private val context: Context) {
 
 
-        fun readFile() {
+        fun readPokedexFile() {
 
         context.assets.open("pokedex.csv").bufferedReader().use {
             it.readLine()
@@ -39,6 +39,32 @@ class PokedexReader(private val context: Context) {
                 }
             }
         }
+    }
+
+    fun readAvailabilityFiles() {
+        readAvailabilityFile(151, 0, 0, "gen1Availability.csv")
+        readAvailabilityFile(99, 4, 151, "gen2Availability.csv")
+        readAvailabilityFile(134, 7, 251, "gen3Availability.csv")
+        readAvailabilityFile(106, 14, 386, "gen4Availability.csv")
+        readAvailabilityFile(155, 20, 493, "gen5Availability.csv")
+        println("yo")
+    }
+
+    fun readAvailabilityFile(size: Int, offset: Int, pokedexStart: Int, filename: String){
+        context.assets.open(filename).bufferedReader().use {
+            //it.readLine()
+            for(i in 0..size-1){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    for(j in 2 .. inputArray.size-1){
+                        Pokedex.pokemonAvailability[pokedexStart+i][j-2+offset]= inputArray[j]
+                    }
+
+                }
+            }
+        }
+        println("yo")
     }
 
     fun stringToTYPE(input: String): TYPE {
