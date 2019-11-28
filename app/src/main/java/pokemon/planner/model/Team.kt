@@ -3,7 +3,9 @@ package pokemon.planner.model
 import java.io.Serializable
 
 class Team (
-    public val name: String
+    public val name: String,
+    public val version: GameVersion,
+    public val gender: Boolean
 ): Serializable{
     //val pokemonList = ArrayList<Pokemon>()
     var dummyPokemon = Pokemon("-1", "dummy", intArrayOf(0,0,0,0,0,0,0), TYPE.NONE, TYPE.NONE, "dummy", "dummy")
