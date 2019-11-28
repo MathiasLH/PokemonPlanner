@@ -99,6 +99,7 @@ class PokedexReader(private val context: Context) {
         for(i in 0..Pokedex.pokedexSize-1){
             Pokedex.addPokemonToPokedex(Pokemon(idArray[i], nameArray[i], statsArray[i], primaryTypeArray[i], secondaryTypeArray[i], primaryAbilityArray[i], secondaryAbilityArray[i]))
         }
+        readAvailabilityFiles()
         println("yo")
     }
 
@@ -133,7 +134,7 @@ class PokedexReader(private val context: Context) {
                 }
             }
         }
-    }
+    }*/
 
     fun readAvailabilityFiles() {
         readAvailabilityFile(151, 0, 0, "gen1Availability.csv")
@@ -159,7 +160,7 @@ class PokedexReader(private val context: Context) {
             }
         }
         println("yo")
-    }*/
+    }
 
     fun typeIDtoTYPE(input: String): TYPE{
         when(Integer.parseInt(input)){

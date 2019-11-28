@@ -11,18 +11,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pokemon.planner.adapters.SearchResultAdapter
-import pokemon.planner.model.Pokedex
-import pokemon.planner.model.Pokemon
-import pokemon.planner.model.SearchForm
-import pokemon.planner.model.TYPE
+import pokemon.planner.model.*
 
 class SearchResultActivity : AppCompatActivity() {
     private lateinit var searchResultLayoutManager: LinearLayoutManager
+    private lateinit var team: Team
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_result)
         val searchForm = intent.getSerializableExtra("searchForm") as SearchForm
+        team = intent.getSerializableExtra("team") as Team
         searchResultLayoutManager = LinearLayoutManager(this)
         var searchResults = findViewById<RecyclerView>(R.id.resultRecyclerView)
         searchResults.layoutManager = searchResultLayoutManager
@@ -73,7 +72,15 @@ class SearchResultActivity : AppCompatActivity() {
 
     fun searchPokemon(searchForm: SearchForm): ArrayList<Pokemon>{
         var pokemonList = ArrayList<Pokemon>()
-        pokemonList.addAll(Pokedex.pokedex)
+        for(x in 0..Pokedex.pokedex.size-1){
+            var availability = Pokedex.pokemonAvailability[x][team.version.pokemonList]
+            if(availability.equals("C") || availability.equals("R") || availability.equals("E") || availability.equals("B") || availability.equals("EV")){
+                //pokemon IS available in the game
+                pokemonList.add(Pokedex.pokedex[x])
+            }
+        }
+        //pokemonList.addAll(Pokedex.pokedex)
+
 
         var pokemonList2: List<Pokemon> = pokemonList
 
