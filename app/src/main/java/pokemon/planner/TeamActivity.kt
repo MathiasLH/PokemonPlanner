@@ -15,6 +15,7 @@ import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import kotlinx.android.synthetic.main.activity_team.*
 import pokemon.planner.fragments.PokemonFragment
 import pokemon.planner.fragments.TeamFragment
+import pokemon.planner.model.GameVersion
 import pokemon.planner.model.Pokedex
 import pokemon.planner.model.Team
 
@@ -37,20 +38,25 @@ class TeamActivity : FragmentActivity() {
 
 
         listOfPokemonButtons = arrayOf(pokemon1, pokemon2, pokemon3, pokemon4, pokemon5, pokemon6)
+
         createPokeballBar(team)
         for (x in 0..listOfPokemonButtons.size-1){
             listOfPokemonButtons[x].tag = x.toString()
             listOfPokemonButtons[x].setOnClickListener {
-                if(!team.pokemonList[Integer.parseInt(listOfPokemonButtons[x].tag.toString())].number.equals("-1")){
-                    vp.setCurrentItem(x+1, true)
-                }else{
+                if(team.pokemonList[Integer.parseInt(listOfPokemonButtons[x].tag.toString())].number.equals("-1")){
                     lastPressedBall = Integer.parseInt(listOfPokemonButtons[x].tag as String)
                     val intent = Intent(this, PokemonSearcher::class.java)
                     intent.putExtra("team", team)
                     startActivityForResult(intent, 1)
+                }else{
+                    vp.setCurrentItem(x+1, true)
                 }
                 //launch pokemon activity
             }
+        }
+
+        Trainer.setOnClickListener {
+            vp.setCurrentItem(0, true)
         }
 
 
@@ -120,6 +126,8 @@ class TeamActivity : FragmentActivity() {
     }
 
     fun createPokeballBar(team: Team){
+        var trainerImage = findViewById<ImageButton>(R.id.Trainer)
+        setTrainerSprite(team)
         var listOfPokemonSprites = arrayOf(pokemon1Sprite, pokemon2Sprite, pokemon3Sprite, pokemon4Sprite, pokemon5Sprite, pokemon6Sprite)
         for(x in 0..team.pokemonList.size-1){
             if(!team.pokemonList[x].number.equals("-1")){
@@ -132,38 +140,70 @@ class TeamActivity : FragmentActivity() {
             }
         }
 
+    }
 
-        /*if(!team.pokemonList[0].number.equals("-1")){
-            pokemon1.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.closed))
-        }else{
-            pokemon1.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.plus))
+    fun setTrainerSprite(team: Team){
+        if(team.version.equals(GameVersion.RED) || team.version.equals(GameVersion.BLUE)){
+            Trainer.setImageResource(R.drawable.rb_back)
+        }else if(team.version.equals(GameVersion.YELLOW)){
+            Trainer.setImageResource(R.drawable.y_back)
+        }else if(team.version.equals(GameVersion.GOLD) || team.version.equals(GameVersion.SILVER)){
+            Trainer.setImageResource(R.drawable.gsc_male_back)
+        }else if(team.version.equals(GameVersion.CRYSTAL)){
+            if(team.gender){
+                Trainer.setImageResource(R.drawable.gsc_male_back)
+            }else{
+                Trainer.setImageResource(R.drawable.crystal_female)
+            }
+        }else if(team.version.equals(GameVersion.RUBY) || team.version.equals(GameVersion.SAPPHIRE)){
+            if(team.gender){
+                Trainer.setImageResource(R.drawable.rs_male_back)
+            }else{
+                Trainer.setImageResource(R.drawable.rs_female_back)
+            }
+        }else if(team.version.equals(GameVersion.EMERALD)){
+            if(team.gender){
+                Trainer.setImageResource(R.drawable.e_male_back)
+            }else{
+                Trainer.setImageResource(R.drawable.e_female_back)
+            }
+        }else if(team.version.equals(GameVersion.FIRERED) || team.version.equals(GameVersion.LEAFGREEN)){
+            if(team.gender){
+                Trainer.setImageResource(R.drawable.frlg_male_back)
+            }else{
+                Trainer.setImageResource(R.drawable.frlg_female_back)
+            }
+        }else if(team.version.equals(GameVersion.DIAMOND) || team.version.equals(GameVersion.PEARL)){
+            if(team.gender){
+                Trainer.setImageResource(R.drawable.dp_male_back)
+            }else{
+                Trainer.setImageResource(R.drawable.dp_female_back)
+            }
+        }else if(team.version.equals(GameVersion.PLATINUM)){
+            if(team.gender){
+                Trainer.setImageResource(R.drawable.pt_male_back)
+            }else{
+                Trainer.setImageResource(R.drawable.pt_female_back)
+            }
+        }else if(team.version.equals(GameVersion.HEARTGOLD) || team.version.equals(GameVersion.SOULSILVER)){
+            if(team.gender){
+                Trainer.setImageResource(R.drawable.hgss_male_back)
+            }else{
+                Trainer.setImageResource(R.drawable.hgss_female_back)
+            }
+        }else if(team.version.equals(GameVersion.BLACK) || team.version.equals(GameVersion.WHITE)){
+            if(team.gender){
+                Trainer.setImageResource(R.drawable.bw_male_back)
+            }else{
+                Trainer.setImageResource(R.drawable.bw_female_back)
+            }
+        }else if(team.version.equals(GameVersion.BLACK2) || team.version.equals(GameVersion.WHITE2)){
+            if(team.gender){
+                Trainer.setImageResource(R.drawable.b2w2_male_back)
+            }else{
+                Trainer.setImageResource(R.drawable.b2w2_female_back)
+            }
         }
-        if(!team.pokemonList[1].number.equals("-1")){
-            pokemon2.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.closed))
-        }else{
-            pokemon2.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.plus))
-        }
-        if(!team.pokemonList[2].number.equals("-1")){
-            pokemon3.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.closed))
-        }else{
-            pokemon3.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.plus))
-        }
-        if(!team.pokemonList[3].number.equals("-1")){
-            pokemon4.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.closed))
-        }else{
-            pokemon4.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.plus))
-        }
-        if(!team.pokemonList[4].number.equals("-1")){
-            pokemon5.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.closed))
-        }else{
-            pokemon5.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.plus))
-        }
-        if(!team.pokemonList[5].number.equals("-1")){
-            pokemon6.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.closed))
-        }else{
-            pokemon6.setImageDrawable(ContextCompat.getDrawable(applicationContext, R.drawable.plus))
-        }*/
-
     }
 
     private inner class ScreenSlidePagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm){
