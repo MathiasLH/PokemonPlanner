@@ -22,6 +22,8 @@ class PokedexReader(private val context: Context) {
         var idArray = Array<String>(Pokedex.pokedexSize) {"-1"}
         var nameArray = Array<String>(Pokedex.pokedexSize) {"n/a"}
         var statsArray = Array<IntArray>(Pokedex.pokedexSize) { intArrayOf(0,0,0,0,0,0)}
+        var gen1SpecialArray = Array<Int>(Pokedex.pokedexSize) {-1}
+        var gen1TotalsArray = Array<Int>(Pokedex.pokedexSize) {-1}
         var primaryTypeArray = Array<TYPE>(Pokedex.pokedexSize) {TYPE.NONE}
         var secondaryTypeArray = Array<TYPE>(Pokedex.pokedexSize) {TYPE.NONE}
         var primaryAbilityArray = Array<String>(Pokedex.pokedexSize) {"n/a"}
@@ -95,9 +97,21 @@ class PokedexReader(private val context: Context) {
                 }
             }
         }
+        //read special stat
+        context.assets.open("gen1stats.csv").bufferedReader().use {
+            for(i in 0..150){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    gen1SpecialArray[i] = Integer.parseInt(inputArray[6])
+                    gen1TotalsArray[i] = statsArray[i][0] + statsArray[i][1] + statsArray[i][2] + statsArray[i][5] + gen1SpecialArray[i]
+                }
+            }
+            println("yo")
+        }
 
         for(i in 0..Pokedex.pokedexSize-1){
-            Pokedex.addPokemonToPokedex(Pokemon(idArray[i], nameArray[i], statsArray[i], primaryTypeArray[i], secondaryTypeArray[i], primaryAbilityArray[i], secondaryAbilityArray[i]))
+            Pokedex.addPokemonToPokedex(Pokemon(idArray[i], nameArray[i], statsArray[i],gen1SpecialArray[i], gen1TotalsArray[i], primaryTypeArray[i], secondaryTypeArray[i], primaryAbilityArray[i], secondaryAbilityArray[i]))
         }
         readAvailabilityFiles()
         println("yo")
@@ -181,7 +195,7 @@ class PokedexReader(private val context: Context) {
             15 -> return TYPE.ICE
             16 -> return TYPE.DRAGON
             17 -> return TYPE.DARK
-            18 -> return TYPE.FAIRY
+            18 -> return TYPE.NORMAL
             else -> return TYPE.NONE
         }
     }

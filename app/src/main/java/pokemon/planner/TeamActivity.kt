@@ -153,7 +153,7 @@ class TeamActivity : FragmentActivity() {
             if(team.gender){
                 Trainer.setImageResource(R.drawable.gsc_male_back)
             }else{
-                Trainer.setImageResource(R.drawable.crystal_female)
+                Trainer.setImageResource(R.drawable.c_female_back)
             }
         }else if(team.version.equals(GameVersion.RUBY) || team.version.equals(GameVersion.SAPPHIRE)){
             if(team.gender){

@@ -71,14 +71,7 @@ class SearchResultActivity : AppCompatActivity() {
 
 
     fun searchPokemon(searchForm: SearchForm): ArrayList<Pokemon>{
-        var pokemonList = ArrayList<Pokemon>()
-        for(x in 0..Pokedex.pokedex.size-1){
-            var availability = Pokedex.pokemonAvailability[x][team.version.pokemonList]
-            if(availability.equals("C") || availability.equals("R") || availability.equals("E") || availability.equals("B") || availability.equals("EV") || availability.equals("S") || availability.equals("D")){
-                //pokemon IS available in the game
-                pokemonList.add(Pokedex.pokedex[x])
-            }
-        }
+        var pokemonList = Pokedex.getPokemonList(team.version.pokemonList)
 
         var pokemonList2: List<Pokemon> = pokemonList
 
@@ -108,15 +101,36 @@ class SearchResultActivity : AppCompatActivity() {
         }
 
         //stats
-        for(x in 0..6) {
-            if (searchForm.minStats[x] > 0) {
-                pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[x] > searchForm.minStats[x] }
-            }
+        if(searchForm.version.generation == 1){
+            for(x in 0..5) {
+                if (searchForm.minStats[x] > 0) {
+                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[0] >= searchForm.minStats[0] }
+                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[1] >= searchForm.minStats[1] }
+                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[2] >= searchForm.minStats[2] }
+                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.gen1SpecialStat >= searchForm.minStats[3] }
+                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[4] >= searchForm.minStats[4] }
+                }
 
-            if (searchForm.maxStats[x] > 0) {
-                pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[x] < searchForm.maxStats[x] }
+                if (searchForm.maxStats[x] > 0) {
+                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[0] <= searchForm.maxStats[0] }
+                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[1] <= searchForm.maxStats[1] }
+                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[2] <= searchForm.maxStats[2] }
+                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.gen1SpecialStat <= searchForm.maxStats[3] }
+                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[4] <= searchForm.maxStats[4] }
+                }
+            }
+        }else{
+            for(x in 0..6) {
+                if (searchForm.minStats[x] > 0) {
+                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[x] > searchForm.minStats[x] }
+                }
+
+                if (searchForm.maxStats[x] > 0) {
+                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[x] < searchForm.maxStats[x] }
+                }
             }
         }
+
         return ArrayList(pokemonList2)
     }
 

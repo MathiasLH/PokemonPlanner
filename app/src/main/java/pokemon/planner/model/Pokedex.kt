@@ -26,6 +26,18 @@ object Pokedex{
         this.pokedex.add(pokemon)
     }
 
+    fun getPokemonList(listNumber: Int): ArrayList<Pokemon>{
+        var pokemonList = ArrayList<Pokemon>()
+        for(x in 0..Pokedex.pokedex.size-1){
+            var availability = Pokedex.pokemonAvailability[x][listNumber]
+            if(availability.equals("C") || availability.equals("R") || availability.equals("E") || availability.equals("B") || availability.equals("EV") || availability.equals("S") || availability.equals("D")){
+                //pokemon IS available in the game
+                pokemonList.add(Pokedex.pokedex[x])
+            }
+        }
+        return pokemonList
+    }
+
 
 
 

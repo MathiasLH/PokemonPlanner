@@ -5,8 +5,8 @@ import java.io.Serializable
 class SearchForm(
     val name: String,
     val number: String,
-    val minStats : IntArray = intArrayOf(0, 0, 0, 0, 0, 0, 0),//hp, atk, dfns, sp. atk, sp. dfns, speed, total
-    val maxStats: IntArray = intArrayOf(0, 0, 0, 0, 0, 0, 0),
+    val minStats : ArrayList<Int>,//hp, atk, dfns, sp. atk, sp. dfns, speed, total
+    val maxStats: ArrayList<Int>,
     val type1: TYPE,
     val type2: TYPE,
     val version: GameVersion

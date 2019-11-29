@@ -41,8 +41,7 @@ class MainActivity : AppCompatActivity() {
             editor.apply()
             pokedexreader.downloadImages()
         }else{
-
-
+            pokedexreader.loadImages()
         }
 
         teamList = arrayListOf<Team>()
@@ -68,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         tl.addOnItemTouchListener(
             SearchResultActivity.RecyclerItemClickListenr(this, tl, object : SearchResultActivity.RecyclerItemClickListenr.OnItemClickListener {
                     override fun onItemClick(view: View, position: Int) {
-                        pokedexreader.loadImages()
+
                         val selectedItem = teamList.get(position)
                         val intent = Intent(this@MainActivity, TeamActivity::class.java)
                         intent.putExtra("team", selectedItem)

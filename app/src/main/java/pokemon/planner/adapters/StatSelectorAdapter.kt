@@ -27,17 +27,21 @@ class StatSelectorAdapter(private val context: Context, private val stats: Array
         holder.statName.setText(stats.get(position))
     }
 
-    fun getContents(): ArrayList<IntArray>{
-        var stats = ArrayList<IntArray>()
-        var statsMin = intArrayOf(0, 0, 0, 0, 0, 0, 0)
-        var statsMax = intArrayOf(0, 0, 0, 0, 0, 0, 0)
+    fun getContents(): ArrayList<ArrayList<Int>>{
+        var stats = ArrayList<ArrayList<Int>>()
+        var statsMin = ArrayList<Int>(6)
+        var statsMax = ArrayList<Int>(6)
 
         for(i in 0..holders.size-1){
             if(!holders.get(i).statMin.text.toString().equals("")){
-                statsMin[i] = Integer.parseInt(holders.get(i).statMin.text.toString())
+                statsMin.add(Integer.parseInt(holders.get(i).statMin.text.toString()))
+            }else{
+                statsMin.add(0)
             }
             if(!holders.get(i).statMax.text.toString().equals("")){
-                statsMax[i] = Integer.parseInt(holders.get(i).statMax.text.toString())
+                statsMax.add(Integer.parseInt(holders.get(i).statMax.text.toString()))
+            }else{
+                statsMax.add(0)
             }
         }
         stats.add(statsMin)
