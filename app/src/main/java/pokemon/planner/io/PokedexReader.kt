@@ -148,7 +148,7 @@ class PokedexReader(private val context: Context) {
     fun readAvailabilityFile(size: Int, offset: Int, pokedexStart: Int, filename: String){
         context.assets.open(filename).bufferedReader().use {
             //it.readLine()
-            for(i in 0..size-1){
+            for(i in 0..size){
                 val line: String? = it.readLine()
                 if(line != null){
                     var inputArray = line.split(",")

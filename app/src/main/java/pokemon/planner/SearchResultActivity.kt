@@ -74,13 +74,11 @@ class SearchResultActivity : AppCompatActivity() {
         var pokemonList = ArrayList<Pokemon>()
         for(x in 0..Pokedex.pokedex.size-1){
             var availability = Pokedex.pokemonAvailability[x][team.version.pokemonList]
-            if(availability.equals("C") || availability.equals("R") || availability.equals("E") || availability.equals("B") || availability.equals("EV")){
+            if(availability.equals("C") || availability.equals("R") || availability.equals("E") || availability.equals("B") || availability.equals("EV") || availability.equals("S") || availability.equals("D")){
                 //pokemon IS available in the game
                 pokemonList.add(Pokedex.pokedex[x])
             }
         }
-        //pokemonList.addAll(Pokedex.pokedex)
-
 
         var pokemonList2: List<Pokemon> = pokemonList
 
