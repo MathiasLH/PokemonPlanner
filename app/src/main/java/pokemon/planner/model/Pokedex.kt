@@ -38,6 +38,16 @@ object Pokedex{
         return pokemonList
     }
 
+    fun getGenSpecificStatNames(team: Team): Array<String>{
+        var statNames: Array<String>
+        if(team.version.generation == 1){
+            statNames = arrayOf("HP", "Attack", "Defense", "Special", "Speed", "Total")
+        }else{
+            statNames = arrayOf("HP", "Attack", "Defense", "Sp. Attack", "Sp. Defense", "Speed", "Total")
+        }
+        return statNames
+    }
+
 
 
 

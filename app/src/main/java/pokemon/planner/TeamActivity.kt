@@ -13,7 +13,8 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import kotlinx.android.synthetic.main.activity_team.*
-import pokemon.planner.fragments.PokemonFragment
+import pokemon.planner.adapters.StatSummaryAdapter
+import pokemon.planner.fragments.PokemonFragmentOld
 import pokemon.planner.fragments.TeamFragment
 import pokemon.planner.model.GameVersion
 import pokemon.planner.model.Pokedex
@@ -126,7 +127,6 @@ class TeamActivity : FragmentActivity() {
     }
 
     fun createPokeballBar(team: Team){
-        var trainerImage = findViewById<ImageButton>(R.id.Trainer)
         setTrainerSprite(team)
         var listOfPokemonSprites = arrayOf(pokemon1Sprite, pokemon2Sprite, pokemon3Sprite, pokemon4Sprite, pokemon5Sprite, pokemon6Sprite)
         for(x in 0..team.pokemonList.size-1){
@@ -211,7 +211,7 @@ class TeamActivity : FragmentActivity() {
         override fun getItem(position: Int): Fragment {
             when(position){
              0 -> return TeamFragment(team)
-            else -> return PokemonFragment(team.pokemonList[position-1])
+            else -> return PokemonFragmentOld(team.pokemonList[position-1], team, applicationContext)
             }
         }
     }

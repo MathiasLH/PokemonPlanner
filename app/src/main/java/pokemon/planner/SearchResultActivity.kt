@@ -65,6 +65,7 @@ class SearchResultActivity : AppCompatActivity() {
     fun startPokemonSummartActivity(position: Int){
         val intent = Intent(this, PokemonSummaryActivity::class.java)
         intent.putExtra("num", position)
+        intent.putExtra("team", team)
         startActivityForResult(intent, 1)
     }
 
@@ -101,34 +102,27 @@ class SearchResultActivity : AppCompatActivity() {
         }
 
         //stats
+
         if(searchForm.version.generation == 1){
-            for(x in 0..5) {
-                if (searchForm.minStats[x] > 0) {
-                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[0] >= searchForm.minStats[0] }
-                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[1] >= searchForm.minStats[1] }
-                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[2] >= searchForm.minStats[2] }
-                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.gen1SpecialStat >= searchForm.minStats[3] }
-                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[4] >= searchForm.minStats[4] }
-                }
-
-                if (searchForm.maxStats[x] > 0) {
-                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[0] <= searchForm.maxStats[0] }
-                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[1] <= searchForm.maxStats[1] }
-                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[2] <= searchForm.maxStats[2] }
-                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.gen1SpecialStat <= searchForm.maxStats[3] }
-                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[4] <= searchForm.maxStats[4] }
-                }
+        for(x in 0..searchForm.minStats.size-1) {
+            if (searchForm.minStats[x] > 0) {
+                pokemonList2 = pokemonList2.filter { pokemon -> pokemon.gen1Stats[x] >= searchForm.minStats[x] }
             }
+
+            if (searchForm.maxStats[x] > 0) {
+                pokemonList2 = pokemonList2.filter { pokemon -> pokemon.gen1Stats[x] <= searchForm.maxStats[x] }
+            }
+        }
         }else{
-            for(x in 0..6) {
-                if (searchForm.minStats[x] > 0) {
-                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[x] > searchForm.minStats[x] }
-                }
-
-                if (searchForm.maxStats[x] > 0) {
-                    pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[x] < searchForm.maxStats[x] }
-                }
+        for(x in 0..searchForm.minStats.size-1) {
+            if (searchForm.minStats[x] > 0) {
+                pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[x] >= searchForm.minStats[x] }
             }
+
+            if (searchForm.maxStats[x] > 0) {
+                pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[x] <= searchForm.maxStats[x] }
+            }
+        }
         }
 
         return ArrayList(pokemonList2)

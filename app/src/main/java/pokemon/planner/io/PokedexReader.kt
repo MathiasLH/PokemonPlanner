@@ -21,7 +21,8 @@ class PokedexReader(private val context: Context) {
     fun readPokedexData(){
         var idArray = Array<String>(Pokedex.pokedexSize) {"-1"}
         var nameArray = Array<String>(Pokedex.pokedexSize) {"n/a"}
-        var statsArray = Array<IntArray>(Pokedex.pokedexSize) { intArrayOf(0,0,0,0,0,0)}
+        var statsArray = Array<Array<Int>>(Pokedex.pokedexSize) { Array<Int>(7) {0} }
+        var gen1StatArray = Array<Array<Int>>(Pokedex.pokedexSize) { Array<Int>(6) {0} }
         var gen1SpecialArray = Array<Int>(Pokedex.pokedexSize) {-1}
         var gen1TotalsArray = Array<Int>(Pokedex.pokedexSize) {-1}
         var primaryTypeArray = Array<TYPE>(Pokedex.pokedexSize) {TYPE.NONE}
@@ -111,7 +112,14 @@ class PokedexReader(private val context: Context) {
         }
 
         for(i in 0..Pokedex.pokedexSize-1){
-            Pokedex.addPokemonToPokedex(Pokemon(idArray[i], nameArray[i], statsArray[i],gen1SpecialArray[i], gen1TotalsArray[i], primaryTypeArray[i], secondaryTypeArray[i], primaryAbilityArray[i], secondaryAbilityArray[i]))
+            gen1StatArray[i][0] = statsArray[i][0]
+            gen1StatArray[i][1] = statsArray[i][1]
+            gen1StatArray[i][2] = statsArray[i][2]
+            gen1StatArray[i][3] = gen1SpecialArray[i]
+            gen1StatArray[i][4] = statsArray[i][5]
+            gen1StatArray[i][5] = statsArray[i][0] + gen1StatArray[i][1] + gen1StatArray[i][2] + gen1StatArray[i][3] + gen1StatArray[i][4]
+            statsArray[i][6] = statsArray[i][0] + statsArray[i][1] + statsArray[i][2] + statsArray[i][3] + statsArray[i][4] + statsArray[i][5]
+            Pokedex.addPokemonToPokedex(Pokemon(idArray[i], nameArray[i], statsArray[i], gen1StatArray[i], primaryTypeArray[i], secondaryTypeArray[i], primaryAbilityArray[i], secondaryAbilityArray[i]))
         }
         readAvailabilityFiles()
         println("yo")
