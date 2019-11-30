@@ -1,21 +1,11 @@
 package pokemon.planner
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
 import kotlinx.android.synthetic.main.activity_pokemon_summary.*
-import org.jetbrains.anko.find
-import pokemon.planner.fragments.PokemonFragmentOld
+import pokemon.planner.fragments.PokemonFragment
 import pokemon.planner.model.Pokedex
-import pokemon.planner.model.Pokemon
-import pokemon.planner.model.TYPE
 import pokemon.planner.model.Team
 
 class PokemonSummaryActivity : AppCompatActivity() {
@@ -27,7 +17,7 @@ class PokemonSummaryActivity : AppCompatActivity() {
         val team = intent.getSerializableExtra("team") as Team
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
-        val fragment = PokemonFragmentOld(Pokedex.pokedex.get(number), team, this)
+        val fragment = PokemonFragment(Pokedex.pokedex.get(number), team, this)
         transaction.replace(R.id.fragment_holder, fragment)
         transaction.commit()
 

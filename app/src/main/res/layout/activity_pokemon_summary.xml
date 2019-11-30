@@ -19,7 +19,7 @@
         android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="8dp"
         android:text="Add to team"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"

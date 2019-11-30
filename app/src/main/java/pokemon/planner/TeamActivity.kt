@@ -13,8 +13,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import kotlinx.android.synthetic.main.activity_team.*
-import pokemon.planner.adapters.StatSummaryAdapter
-import pokemon.planner.fragments.PokemonFragmentOld
+import pokemon.planner.fragments.PokemonFragment
 import pokemon.planner.fragments.TeamFragment
 import pokemon.planner.model.GameVersion
 import pokemon.planner.model.Pokedex
@@ -211,7 +210,7 @@ class TeamActivity : FragmentActivity() {
         override fun getItem(position: Int): Fragment {
             when(position){
              0 -> return TeamFragment(team)
-            else -> return PokemonFragmentOld(team.pokemonList[position-1], team, applicationContext)
+            else -> return PokemonFragment(team.pokemonList[position-1], team, applicationContext)
             }
         }
     }

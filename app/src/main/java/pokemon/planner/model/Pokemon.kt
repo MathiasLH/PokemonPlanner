@@ -1,5 +1,6 @@
 package pokemon.planner.model
 
+import android.location.Criteria
 import java.io.Serializable
 
 class Pokemon(
@@ -10,7 +11,11 @@ class Pokemon(
     val primaryType: TYPE,
     val secondaryType: TYPE,
     val ability1: String,
-    val ability2: String
+    val ability2: String,
+    val minLevel: Int,
+    val evolvesFrom: ArrayList<Int>,
+    val evolvesTo: ArrayList<Int>,
+    var evolveCriteria: String
 ): Serializable{
 
 

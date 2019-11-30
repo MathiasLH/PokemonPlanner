@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
@@ -22,9 +21,11 @@ import pokemon.planner.model.Pokedex
 import pokemon.planner.model.Pokemon
 import pokemon.planner.model.TYPE
 import pokemon.planner.model.Team
+import pokemon.planner.adapters.obtainMethodAdapter
 
-class PokemonFragmentOld(private var pokemon: Pokemon, private var team: Team, private var  ctx: Context): Fragment() {
+class PokemonFragment(private var pokemon: Pokemon, private var team: Team, private var  ctx: Context): Fragment() {
     private lateinit var ssa: StatSummaryAdapter
+    private lateinit var LayoutManger : LinearLayoutManager
 
 
     override fun onCreateView(
@@ -59,6 +60,19 @@ class PokemonFragmentOld(private var pokemon: Pokemon, private var team: Team, p
                 statList.layoutManager = llm
                 statList.adapter = StatSummaryAdapter(ctx, team, statNames, statValues)
 
+                //createObtainMethodComponent(view.findViewById(R.id.replaceView) as ViewGroup, pokemon)
+                var obtainRecycler = view.findViewById<RecyclerView>(R.id.obtainRecyclerView)
+
+                LayoutManger = LinearLayoutManager(ctx)
+                obtainRecycler.layoutManager = LayoutManger
+                obtainRecycler.adapter = obtainMethodAdapter(ctx, pokemon, team)
+
+
+
+
+
+                /*var replaceView = view.findViewById<ConstraintLayout>(R.id.constraintLayout)
+                replaceView = testView*/
 
                 var card1 = view.findViewById<CardView>(R.id.card1)
                 var card2 = view.findViewById<CardView>(R.id.card2)
@@ -102,6 +116,24 @@ class PokemonFragmentOld(private var pokemon: Pokemon, private var team: Team, p
             }
         return view
     }
+
+
+
+    /*private fun createObtainMethodComponent(view: View, parent: ViewGroup, pokemon: Pokemon){
+        val inflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        //val parent = view.findViewById(R.id.replaceView) as ViewGroup
+        inflater.inflate(R.layout.acquisition, parent)
+        var testView = view.findViewById<ViewGroup>(R.id.replaceView)
+        testView.findViewById<TextView>(R.id.numberNameLabel).text = ("#" + pokemon.number + " " + pokemon.name + " is obtained by:")
+        testView.findViewById<TextView>(R.id.obtainedByLabel).text = getObtainMethod(pokemon, team)
+        testView.findViewById<ImageView>(R.id.image).setImageBitmap(Pokedex.smallImages[Integer.parseInt(pokemon.number)-1])
+        if(getObtainMethod(pokemon,team).equals("Evolves from other pokemon")){
+            inflater.inflate(R.layout.acquisition, testView.findViewById(R.id.replaceView))
+            //createObtainMethodComponent(view, testView as ViewGroup, Pokedex.pokedex[Integer.parseInt(pokemon.number)-2])
+        }
+    }*/
+
+
 
 
 }
