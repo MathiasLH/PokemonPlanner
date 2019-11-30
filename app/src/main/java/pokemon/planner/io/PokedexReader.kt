@@ -7,9 +7,7 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import pokemon.planner.model.Pokedex
-import pokemon.planner.model.Pokemon
-import pokemon.planner.model.TYPE
+import pokemon.planner.model.*
 import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -33,6 +31,7 @@ class PokedexReader(private val context: Context) {
         var evolvesTo = Array<ArrayList<Int>>(Pokedex.pokedexSize) {ArrayList<Int>()}
         var evolvesFrom = Array<ArrayList<Int>>(Pokedex.pokedexSize) {ArrayList<Int>()}
         var evolveCriteria = Array<String>(Pokedex.pokedexSize) {""}
+
 
         //read name and ID of pokemon
         context.assets.open("pokemon.csv").bufferedReader().use {
@@ -134,8 +133,29 @@ class PokedexReader(private val context: Context) {
             println("yo")
         }
 
+        context.assets.open("locations.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..781){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    Pokedex.locationNames[Integer.parseInt(inputArray[0])] = inputArray[2]
+                }
+            }
+            println("yo")
+        }
 
-
+        context.assets.open("location_areas.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..683){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    Pokedex.locationIds[Integer.parseInt(inputArray[0])] = Integer.parseInt(inputArray[1])
+                }
+            }
+            println("yo")
+        }
 
         for(i in 0..Pokedex.pokedexSize-1){
             gen1StatArray[i][0] = statsArray[i][0]
@@ -149,7 +169,56 @@ class PokedexReader(private val context: Context) {
         }
         readEvolutionFiles()
         readAvailabilityFiles()
+        readPokemonEncounters()
         println("yo")
+    }
+
+    fun readPokemonEncounters(){
+
+
+        context.assets.open("encounters.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..46833){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    //black majiks
+                    //reads the entire encounter file, sorts the encounters into each list (which represent one game each)
+                    //THEN sorts those encounters for each pokemon in that game.
+                    if(Integer.parseInt(inputArray[4]) <= 649 && Integer.parseInt(inputArray[1]) <= 22){
+
+                        Pokedex.encounters[Integer.parseInt(inputArray[1])-1][Integer.parseInt(inputArray[4])-1].add(Encounter(Integer.parseInt(inputArray[1]), Pokedex.locationIds[Integer.parseInt(inputArray[2])]as Int,Integer.parseInt(inputArray[3]),Integer.parseInt(inputArray[4]), Integer.parseInt(inputArray[5]), Integer.parseInt(inputArray[6])))
+                    }
+                }
+            }
+            println("yo")
+        }
+    }
+
+    fun versionIdToGameVersion(versionId: Int): GameVersion{
+        when(versionId){
+            1 -> return GameVersion.RED
+            2 -> return GameVersion.BLUE
+            3 -> return GameVersion.YELLOW
+            4 -> return GameVersion.GOLD
+            5 -> return GameVersion.SILVER
+            6 -> return GameVersion.CRYSTAL
+            7 -> return GameVersion.RUBY
+            8 -> return GameVersion.SAPPHIRE
+            9 -> return GameVersion.EMERALD
+            10 -> return GameVersion.FIRERED
+            11 -> return GameVersion.LEAFGREEN
+            12 -> return GameVersion.DIAMOND
+            13 -> return GameVersion.PEARL
+            14 -> return GameVersion.PLATINUM
+            15 -> return GameVersion.HEARTGOLD
+            16 -> return GameVersion.SOULSILVER
+            17 -> return GameVersion.BLACK
+            18 -> return GameVersion.WHITE
+            21 -> return GameVersion.BLACK2
+            22 -> return GameVersion.WHITE2
+            else-> return GameVersion.NONE
+        }
     }
 
     fun readEvolutionFiles(){

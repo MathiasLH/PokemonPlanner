@@ -6,6 +6,8 @@ import android.graphics.Bitmap
 object Pokedex{
     var pokedexSize = 649
     var pokedex = arrayListOf<Pokemon>()
+    var locationNames = mutableMapOf<Int, String>()
+    var locationIds = mutableMapOf<Int, Int>()
     var abilities = mutableMapOf<Int, String>()
 
     var smallImages = Array<Bitmap?>(pokedexSize) {null}
@@ -20,6 +22,8 @@ object Pokedex{
     //The games in order are:
     //red, blue, yellow, gold, silver, crystal, ruby, sapphire, firered, leafgreen, emerald, diamond, pearl, platinum, heartgold, soulsilver, black, white, black2, white2
     var pokemonAvailability = Array<Array<String>>(pokedexSize) {Array<String>(36){"U"} }
+
+    var encounters = Array<Array<ArrayList<Encounter>>>(22) {Array<ArrayList<Encounter>>(Pokedex.pokedexSize) {ArrayList<Encounter>()}}
 
     fun addPokemonToPokedex(pokemon: Pokemon){
 

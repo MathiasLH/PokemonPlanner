@@ -28,15 +28,24 @@ class obtainMethodAdapter(private val context: Context, private val pokemon: Pok
         //holder.obtain.text = getObtainMethod()
         holder.image.setImageBitmap(Pokedex.smallImages[Integer.parseInt(pokemon.number)-1])
         //if(Pokedex.pokemonAvailability[Integer.parseInt(pokemon.number)-1][team.version.pokemonList].equals("E")){
+        nestedLayoutManger = LinearLayoutManager(context)
+        holder.nestedRecycler.layoutManager = nestedLayoutManger
         if(pokemon.evolvesFrom.size > 0){
-            nestedLayoutManger = LinearLayoutManager(context)
-            holder.nestedRecycler.layoutManager = nestedLayoutManger
             holder.nestedRecycler.adapter = obtainMethodAdapter(context, Pokedex.pokedex.get(pokemon.evolvesFrom.get(0)-1), team)
             if(pokemon.minLevel == -1){
                 holder.numberName.text = ("#" + pokemon.number + " " + pokemon.name + " evolves with " + pokemon.evolveCriteria + " from")
             }else{
                 holder.numberName.text = ("#" + pokemon.number + " " + pokemon.name + " evolves at " + pokemon.evolveCriteria + " from")
             }
+        }else if(Pokedex.pokemonAvailability[Integer.parseInt(pokemon.number)-1][team.version.pokemonList].equals("C")){
+            var encounters = Pokedex.encounters[team.version.versionId][Integer.parseInt(pokemon.number)-1]
+            var filteredLocations = ArrayList<String>()
+            for(encounter in encounters){
+                if(!filteredLocations.contains(Pokedex.locationNames[encounter.locationId]!!.replace('-', ' '))){
+                    filteredLocations.add(Pokedex.locationNames[encounter.locationId]!!.replace('-', ' '))
+                }
+            }
+            holder.nestedRecycler.adapter = locationListAdapter(context, filteredLocations)
         }
     }
 
@@ -51,7 +60,7 @@ class obtainMethodAdapter(private val context: Context, private val pokemon: Pok
     private fun getObtainMethod(): String {
         var availability = Pokedex.pokemonAvailability[Integer.parseInt(pokemon.number)-1][team.version.pokemonList]
         if(availability.equals("C")){
-            return " is caught in the wild."
+            return " is caught in the wild"
         }else if(availability.equals("R")){
             return " is recieved from an NPC"
         }else if(availability.equals("E")){
