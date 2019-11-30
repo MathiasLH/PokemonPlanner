@@ -111,7 +111,7 @@ class PokedexReader(private val context: Context) {
                     gen1TotalsArray[i] = statsArray[i][0] + statsArray[i][1] + statsArray[i][2] + statsArray[i][5] + gen1SpecialArray[i]
                 }
             }
-            println("yo")
+            println("Reading gen 1 stats")
         }
 
         context.assets.open("pokemon_evolution.csv").bufferedReader().use {
@@ -130,7 +130,7 @@ class PokedexReader(private val context: Context) {
                     }
                 }
             }
-            println("yo")
+            println("reading evolutions")
         }
 
         context.assets.open("locations.csv").bufferedReader().use {
@@ -142,7 +142,7 @@ class PokedexReader(private val context: Context) {
                     Pokedex.locationNames[Integer.parseInt(inputArray[0])] = inputArray[2]
                 }
             }
-            println("yo")
+
         }
 
         context.assets.open("location_areas.csv").bufferedReader().use {
@@ -154,7 +154,7 @@ class PokedexReader(private val context: Context) {
                     Pokedex.locationIds[Integer.parseInt(inputArray[0])] = Integer.parseInt(inputArray[1])
                 }
             }
-            println("yo")
+            println("reading locations")
         }
 
         for(i in 0..Pokedex.pokedexSize-1){
@@ -170,7 +170,7 @@ class PokedexReader(private val context: Context) {
         readEvolutionFiles()
         readAvailabilityFiles()
         readPokemonEncounters()
-        println("yo")
+        println("done reading.")
     }
 
     fun readPokemonEncounters(){
@@ -178,20 +178,26 @@ class PokedexReader(private val context: Context) {
 
         context.assets.open("encounters.csv").bufferedReader().use {
             it.readLine()
+            var j = 0
             for(i in 0..46833){
                 val line: String? = it.readLine()
                 if(line != null){
                     var inputArray = line.split(",")
+                    if(inputArray[4].equals("245")){
+                        println("Found suicune")
+                        //j++
+                        //println(j.toString() + " generation 2 encounters were found.")
+                    }
+
                     //black majiks
                     //reads the entire encounter file, sorts the encounters into each list (which represent one game each)
                     //THEN sorts those encounters for each pokemon in that game.
                     if(Integer.parseInt(inputArray[4]) <= 649 && Integer.parseInt(inputArray[1]) <= 22){
-
                         Pokedex.encounters[Integer.parseInt(inputArray[1])-1][Integer.parseInt(inputArray[4])-1].add(Encounter(Integer.parseInt(inputArray[1]), Pokedex.locationIds[Integer.parseInt(inputArray[2])]as Int,Integer.parseInt(inputArray[3]),Integer.parseInt(inputArray[4]), Integer.parseInt(inputArray[5]), Integer.parseInt(inputArray[6])))
                     }
                 }
             }
-            println("yo")
+            println("Reading encounters")
         }
     }
 
@@ -253,7 +259,7 @@ class PokedexReader(private val context: Context) {
 
                 }
             }
-            println("yo")
+            println("reading also evolutins?")
         }
     }
 
