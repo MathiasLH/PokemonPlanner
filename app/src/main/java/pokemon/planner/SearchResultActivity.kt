@@ -11,18 +11,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import pokemon.planner.adapters.SearchResultAdapter
-import pokemon.planner.model.Pokedex
-import pokemon.planner.model.Pokemon
-import pokemon.planner.model.SearchForm
-import pokemon.planner.model.TYPE
+import pokemon.planner.model.*
 
 class SearchResultActivity : AppCompatActivity() {
     private lateinit var searchResultLayoutManager: LinearLayoutManager
+    private lateinit var team: Team
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_result)
         val searchForm = intent.getSerializableExtra("searchForm") as SearchForm
+        team = intent.getSerializableExtra("team") as Team
         searchResultLayoutManager = LinearLayoutManager(this)
         var searchResults = findViewById<RecyclerView>(R.id.resultRecyclerView)
         searchResults.layoutManager = searchResultLayoutManager
@@ -66,14 +65,14 @@ class SearchResultActivity : AppCompatActivity() {
     fun startPokemonSummartActivity(position: Int){
         val intent = Intent(this, PokemonSummaryActivity::class.java)
         intent.putExtra("num", position)
+        intent.putExtra("team", team)
         startActivityForResult(intent, 1)
     }
 
 
 
     fun searchPokemon(searchForm: SearchForm): ArrayList<Pokemon>{
-        var pokemonList = ArrayList<Pokemon>()
-        pokemonList.addAll(Pokedex.pokedex)
+        var pokemonList = Pokedex.getPokemonList(team.version.pokemonList)
 
         var pokemonList2: List<Pokemon> = pokemonList
 
@@ -103,15 +102,29 @@ class SearchResultActivity : AppCompatActivity() {
         }
 
         //stats
-        for(x in 0..6) {
+
+        if(searchForm.version.generation == 1){
+        for(x in 0..searchForm.minStats.size-1) {
             if (searchForm.minStats[x] > 0) {
-                pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[x] > searchForm.minStats[x] }
+                pokemonList2 = pokemonList2.filter { pokemon -> pokemon.gen1Stats[x] >= searchForm.minStats[x] }
             }
 
             if (searchForm.maxStats[x] > 0) {
-                pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[x] < searchForm.maxStats[x] }
+                pokemonList2 = pokemonList2.filter { pokemon -> pokemon.gen1Stats[x] <= searchForm.maxStats[x] }
             }
         }
+        }else{
+        for(x in 0..searchForm.minStats.size-1) {
+            if (searchForm.minStats[x] > 0) {
+                pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[x] >= searchForm.minStats[x] }
+            }
+
+            if (searchForm.maxStats[x] > 0) {
+                pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[x] <= searchForm.maxStats[x] }
+            }
+        }
+        }
+
         return ArrayList(pokemonList2)
     }
 

@@ -6,6 +6,10 @@ import android.graphics.Bitmap
 object Pokedex{
     var pokedexSize = 649
     var pokedex = arrayListOf<Pokemon>()
+    var locationNames = mutableMapOf<Int, String>()
+    var locationIds = mutableMapOf<Int, Int>()
+    var abilities = mutableMapOf<Int, String>()
+
     var smallImages = Array<Bitmap?>(pokedexSize) {null}
 
     var largeImages = Array<Bitmap?>(pokedexSize) {null}
@@ -19,9 +23,33 @@ object Pokedex{
     //red, blue, yellow, gold, silver, crystal, ruby, sapphire, firered, leafgreen, emerald, diamond, pearl, platinum, heartgold, soulsilver, black, white, black2, white2
     var pokemonAvailability = Array<Array<String>>(pokedexSize) {Array<String>(36){"U"} }
 
+    var encounters = Array<Array<ArrayList<Encounter>>>(22) {Array<ArrayList<Encounter>>(Pokedex.pokedexSize) {ArrayList<Encounter>()}}
+
     fun addPokemonToPokedex(pokemon: Pokemon){
 
         this.pokedex.add(pokemon)
+    }
+
+    fun getPokemonList(listNumber: Int): ArrayList<Pokemon>{
+        var pokemonList = ArrayList<Pokemon>()
+        for(x in 0..Pokedex.pokedex.size-1){
+            var availability = Pokedex.pokemonAvailability[x][listNumber]
+            if(availability.equals("C") || availability.equals("R") || availability.equals("E") || availability.equals("B") || availability.equals("EV") || availability.equals("S") || availability.equals("D")){
+                //pokemon IS available in the game
+                pokemonList.add(Pokedex.pokedex[x])
+            }
+        }
+        return pokemonList
+    }
+
+    fun getGenSpecificStatNames(team: Team): Array<String>{
+        var statNames: Array<String>
+        if(team.version.generation == 1){
+            statNames = arrayOf("HP", "Attack", "Defense", "Special", "Speed", "Total")
+        }else{
+            statNames = arrayOf("HP", "Attack", "Defense", "Sp. Attack", "Sp. Defense", "Speed", "Total")
+        }
+        return statNames
     }
 
 

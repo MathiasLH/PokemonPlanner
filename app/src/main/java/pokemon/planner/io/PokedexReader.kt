@@ -7,9 +7,7 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import pokemon.planner.model.Pokedex
-import pokemon.planner.model.Pokemon
-import pokemon.planner.model.TYPE
+import pokemon.planner.model.*
 import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -18,8 +16,255 @@ import java.net.HttpURLConnection
 
 class PokedexReader(private val context: Context) {
 
+    fun readPokedexData(){
+        var idArray = Array<String>(Pokedex.pokedexSize) {"-1"}
+        var nameArray = Array<String>(Pokedex.pokedexSize) {"n/a"}
+        var statsArray = Array<Array<Int>>(Pokedex.pokedexSize) { Array<Int>(7) {0} }
+        var gen1StatArray = Array<Array<Int>>(Pokedex.pokedexSize) { Array<Int>(6) {0} }
+        var gen1SpecialArray = Array<Int>(Pokedex.pokedexSize) {-1}
+        var gen1TotalsArray = Array<Int>(Pokedex.pokedexSize) {-1}
+        var primaryTypeArray = Array<TYPE>(Pokedex.pokedexSize) {TYPE.NONE}
+        var secondaryTypeArray = Array<TYPE>(Pokedex.pokedexSize) {TYPE.NONE}
+        var primaryAbilityArray = Array<String>(Pokedex.pokedexSize) {"n/a"}
+        var secondaryAbilityArray = Array<String>(Pokedex.pokedexSize) {"n/a"}
+        var minimumLevelArray = Array<Int>(Pokedex.pokedexSize) {-1}
+        var evolvesTo = Array<ArrayList<Int>>(Pokedex.pokedexSize) {ArrayList<Int>()}
+        var evolvesFrom = Array<ArrayList<Int>>(Pokedex.pokedexSize) {ArrayList<Int>()}
+        var evolveCriteria = Array<String>(Pokedex.pokedexSize) {""}
 
-        fun readPokedexFile() {
+
+        //read name and ID of pokemon
+        context.assets.open("pokemon.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..Pokedex.pokedexSize-1){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    idArray[i] = inputArray[0]
+                    nameArray[i] = inputArray[1]
+                }
+            }
+        }
+
+        //read stats of pokemon
+        context.assets.open("pokemon_stats.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..3893){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    statsArray[Integer.parseInt(inputArray[0])-1][Integer.parseInt(inputArray[1])-1] = Integer.parseInt(inputArray[2])
+                }
+            }
+        }
+
+        //read types of pokemon
+        context.assets.open("pokemon_types.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..957){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    if(inputArray[2].equals("1")){
+                        primaryTypeArray[Integer.parseInt(inputArray[0])-1] = typeIDtoTYPE(inputArray[1])
+                    }else{
+                        secondaryTypeArray[Integer.parseInt(inputArray[0])-1] = typeIDtoTYPE(inputArray[1])
+                    }
+                }
+            }
+        }
+
+        //read info about abilities
+        context.assets.open("abilities.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..292){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    Pokedex.abilities[Integer.parseInt(inputArray[0])] = inputArray[1]
+                }
+            }
+        }
+
+        //read abilities of pokemon
+        context.assets.open("pokemon_abilities.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..1598){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    if(inputArray[3].equals("1")){
+                        primaryAbilityArray[Integer.parseInt(inputArray[0])-1] = Pokedex.abilities[Integer.parseInt(inputArray[1])] as String
+                    }else if(inputArray[3].equals("2")){
+                        secondaryAbilityArray[Integer.parseInt(inputArray[0])-1] = Pokedex.abilities[Integer.parseInt(inputArray[1])] as String
+                    }
+                }
+            }
+        }
+        //read special stat
+        context.assets.open("gen1stats.csv").bufferedReader().use {
+            for(i in 0..150){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    gen1SpecialArray[i] = Integer.parseInt(inputArray[6])
+                    gen1TotalsArray[i] = statsArray[i][0] + statsArray[i][1] + statsArray[i][2] + statsArray[i][5] + gen1SpecialArray[i]
+                }
+            }
+            println("Reading gen 1 stats")
+        }
+
+        context.assets.open("pokemon_evolution.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..403){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    if(inputArray[2].equals("1") && Integer.parseInt(inputArray[1]) < 649){
+                        //pokemon evolves by level
+                        if(!inputArray[4].equals("")){
+                            minimumLevelArray[Integer.parseInt(inputArray[1])-1] = Integer.parseInt(inputArray[4])
+                        }
+                    }else if(inputArray[2].equals("3") && Integer.parseInt(inputArray[1]) < 649){
+
+                    }
+                }
+            }
+            println("reading evolutions")
+        }
+
+        context.assets.open("locations.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..781){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    Pokedex.locationNames[Integer.parseInt(inputArray[0])] = inputArray[2]
+                }
+            }
+
+        }
+
+        context.assets.open("location_areas.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..683){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    Pokedex.locationIds[Integer.parseInt(inputArray[0])] = Integer.parseInt(inputArray[1])
+                }
+            }
+            println("reading locations")
+        }
+
+        for(i in 0..Pokedex.pokedexSize-1){
+            gen1StatArray[i][0] = statsArray[i][0]
+            gen1StatArray[i][1] = statsArray[i][1]
+            gen1StatArray[i][2] = statsArray[i][2]
+            gen1StatArray[i][3] = gen1SpecialArray[i]
+            gen1StatArray[i][4] = statsArray[i][5]
+            gen1StatArray[i][5] = statsArray[i][0] + gen1StatArray[i][1] + gen1StatArray[i][2] + gen1StatArray[i][3] + gen1StatArray[i][4]
+            statsArray[i][6] = statsArray[i][0] + statsArray[i][1] + statsArray[i][2] + statsArray[i][3] + statsArray[i][4] + statsArray[i][5]
+            Pokedex.addPokemonToPokedex(Pokemon(idArray[i], nameArray[i], statsArray[i], gen1StatArray[i], primaryTypeArray[i], secondaryTypeArray[i], primaryAbilityArray[i], secondaryAbilityArray[i], minimumLevelArray[i], evolvesFrom[i], evolvesTo[i], evolveCriteria[i]))
+        }
+        readEvolutionFiles()
+        readAvailabilityFiles()
+        readPokemonEncounters()
+        println("done reading.")
+    }
+
+    fun readPokemonEncounters(){
+
+
+        context.assets.open("encounters.csv").bufferedReader().use {
+            it.readLine()
+            var j = 0
+            for(i in 0..46833){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    if(inputArray[4].equals("245")){
+                        println("Found suicune")
+                        //j++
+                        //println(j.toString() + " generation 2 encounters were found.")
+                    }
+
+                    //black majiks
+                    //reads the entire encounter file, sorts the encounters into each list (which represent one game each)
+                    //THEN sorts those encounters for each pokemon in that game.
+                    if(Integer.parseInt(inputArray[4]) <= 649 && Integer.parseInt(inputArray[1]) <= 22){
+                        Pokedex.encounters[Integer.parseInt(inputArray[1])-1][Integer.parseInt(inputArray[4])-1].add(Encounter(Integer.parseInt(inputArray[1]), Pokedex.locationIds[Integer.parseInt(inputArray[2])]as Int,Integer.parseInt(inputArray[3]),Integer.parseInt(inputArray[4]), Integer.parseInt(inputArray[5]), Integer.parseInt(inputArray[6])))
+                    }
+                }
+            }
+            println("Reading encounters")
+        }
+    }
+
+    fun versionIdToGameVersion(versionId: Int): GameVersion{
+        when(versionId){
+            1 -> return GameVersion.RED
+            2 -> return GameVersion.BLUE
+            3 -> return GameVersion.YELLOW
+            4 -> return GameVersion.GOLD
+            5 -> return GameVersion.SILVER
+            6 -> return GameVersion.CRYSTAL
+            7 -> return GameVersion.RUBY
+            8 -> return GameVersion.SAPPHIRE
+            9 -> return GameVersion.EMERALD
+            10 -> return GameVersion.FIRERED
+            11 -> return GameVersion.LEAFGREEN
+            12 -> return GameVersion.DIAMOND
+            13 -> return GameVersion.PEARL
+            14 -> return GameVersion.PLATINUM
+            15 -> return GameVersion.HEARTGOLD
+            16 -> return GameVersion.SOULSILVER
+            17 -> return GameVersion.BLACK
+            18 -> return GameVersion.WHITE
+            21 -> return GameVersion.BLACK2
+            22 -> return GameVersion.WHITE2
+            else-> return GameVersion.NONE
+        }
+    }
+
+    fun readEvolutionFiles(){
+        readEvolutionFile(84, "gen1Evolution.csv")
+        readEvolutionFile(49, "gen2Evolution.csv")
+        readEvolutionFile(74, "gen3Evolution.csv")
+        readEvolutionFile(40, "gen4Evolution.csv")
+        readEvolutionFile(71, "gen5Evolution.csv")
+
+    }
+
+    private fun readEvolutionFile(size: Int, filename: String) {
+        context.assets.open(filename).bufferedReader().use {
+            //it.readLine()
+            for(i in 0..size){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    if(inputArray.size > 4 && !inputArray[5].equals("")){
+                        //Pokemon has one evolution
+                        Pokedex.pokedex.get(Integer.parseInt(inputArray[2])-1).evolvesTo.add(Integer.parseInt(inputArray[5]))
+                        Pokedex.pokedex.get(Integer.parseInt(inputArray[5])-1).evolvesFrom.add(Integer.parseInt(inputArray[2]))
+                        Pokedex.pokedex.get(Integer.parseInt(inputArray[5])-1).evolveCriteria = inputArray[4]
+
+                        if(inputArray.size > 7 && !inputArray[8].equals("")){
+                            //pokemon has two evolutions
+                            Pokedex.pokedex.get(Integer.parseInt(inputArray[5])-1).evolvesTo.add(Integer.parseInt(inputArray[8]))
+                            Pokedex.pokedex.get(Integer.parseInt(inputArray[8])-1).evolvesFrom.add(Integer.parseInt(inputArray[5]))
+                            Pokedex.pokedex.get(Integer.parseInt(inputArray[8])-1).evolveCriteria = inputArray[7]
+                        }
+                    }
+
+                }
+            }
+            println("reading also evolutins?")
+        }
+    }
+
+
+    /*fun readPokedexFile() {
 
         context.assets.open("pokedex.csv").bufferedReader().use {
             it.readLine()
@@ -39,7 +284,7 @@ class PokedexReader(private val context: Context) {
                 }
             }
         }
-    }
+    }*/
 
     fun readAvailabilityFiles() {
         readAvailabilityFile(151, 0, 0, "gen1Availability.csv")
@@ -53,7 +298,7 @@ class PokedexReader(private val context: Context) {
     fun readAvailabilityFile(size: Int, offset: Int, pokedexStart: Int, filename: String){
         context.assets.open(filename).bufferedReader().use {
             //it.readLine()
-            for(i in 0..size-1){
+            for(i in 0..size){
                 val line: String? = it.readLine()
                 if(line != null){
                     var inputArray = line.split(",")
@@ -65,6 +310,30 @@ class PokedexReader(private val context: Context) {
             }
         }
         println("yo")
+    }
+
+    fun typeIDtoTYPE(input: String): TYPE{
+        when(Integer.parseInt(input)){
+            1 -> return TYPE.NORMAL
+            2 -> return TYPE.FIGHTING
+            3 -> return TYPE.FLYING
+            4 -> return TYPE.POISON
+            5 -> return TYPE.GROUND
+            6 -> return TYPE.ROCK
+            7 -> return TYPE.BUG
+            8 -> return TYPE.GHOST
+            9 -> return TYPE.STEEL
+            10 -> return TYPE.FIRE
+            11 -> return TYPE.WATER
+            12 -> return TYPE.GRASS
+            13 -> return TYPE.ELECTRIC
+            14 -> return TYPE.PSYCHIC
+            15 -> return TYPE.ICE
+            16 -> return TYPE.DRAGON
+            17 -> return TYPE.DARK
+            18 -> return TYPE.NORMAL
+            else -> return TYPE.NONE
+        }
     }
 
     fun stringToTYPE(input: String): TYPE {

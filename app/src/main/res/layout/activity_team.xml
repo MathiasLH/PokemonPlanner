@@ -7,9 +7,27 @@
     tools:context=".TeamActivity">
 
     <ImageButton
-        android:id="@+id/pokemon2"
-        android:layout_width="60dp"
+        android:id="@+id/Trainer"
+        android:layout_width="0dp"
         android:layout_height="60dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:background="@android:drawable/screen_background_light_transparent"
+        android:cropToPadding="false"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="@+id/pokemon1"
+        app:layout_constraintEnd_toStartOf="@+id/pokemon1"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pokemon1"
+        app:srcCompat="@drawable/rb_back" />
+
+    <ImageButton
+        android:id="@+id/pokemon2"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
         android:background="@android:drawable/screen_background_light_transparent"
         android:cropToPadding="false"
         android:scaleType="fitCenter"
@@ -22,9 +40,10 @@
 
     <ImageButton
         android:id="@+id/pokemon6"
-        android:layout_width="60dp"
+        android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
         android:background="@android:drawable/screen_background_light_transparent"
         android:cropToPadding="false"
         android:scaleType="fitCenter"
@@ -36,7 +55,7 @@
 
     <ImageButton
         android:id="@+id/pokemon1"
-        android:layout_width="60dp"
+        android:layout_width="0dp"
         android:layout_height="60dp"
         android:background="@android:drawable/screen_background_light_transparent"
         android:cropToPadding="false"
@@ -44,14 +63,16 @@
         app:layout_constraintBottom_toBottomOf="@+id/pokemon2"
         app:layout_constraintEnd_toStartOf="@+id/pokemon2"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Trainer"
         app:layout_constraintTop_toTopOf="@+id/pokemon2"
         app:srcCompat="@drawable/closed" />
 
     <ImageButton
         android:id="@+id/pokemon5"
-        android:layout_width="60dp"
+        android:layout_width="0dp"
         android:layout_height="60dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
         android:background="@android:drawable/screen_background_light_transparent"
         android:cropToPadding="false"
         android:scaleType="fitCenter"
@@ -64,8 +85,10 @@
 
     <ImageButton
         android:id="@+id/pokemon4"
-        android:layout_width="60dp"
+        android:layout_width="0dp"
         android:layout_height="60dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
         android:background="@android:drawable/screen_background_light_transparent"
         android:cropToPadding="false"
         android:scaleType="fitCenter"
@@ -78,8 +101,10 @@
 
     <ImageButton
         android:id="@+id/pokemon3"
-        android:layout_width="60dp"
+        android:layout_width="0dp"
         android:layout_height="60dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
         android:background="@android:drawable/screen_background_light_transparent"
         android:cropToPadding="false"
         android:scaleType="fitCenter"
@@ -92,8 +117,12 @@
 
     <ImageView
         android:id="@+id/pokemon1Sprite"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/pokemon1"
         app:layout_constraintEnd_toEndOf="@+id/pokemon1"
         app:layout_constraintStart_toStartOf="@+id/pokemon1"
@@ -102,8 +131,12 @@
 
     <ImageView
         android:id="@+id/pokemon3Sprite"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/pokemon3"
         app:layout_constraintEnd_toEndOf="@+id/pokemon3"
         app:layout_constraintStart_toStartOf="@+id/pokemon3"
@@ -112,8 +145,12 @@
 
     <ImageView
         android:id="@+id/pokemon2Sprite"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/pokemon2"
         app:layout_constraintEnd_toEndOf="@+id/pokemon2"
         app:layout_constraintStart_toStartOf="@+id/pokemon2"
@@ -122,8 +159,12 @@
 
     <ImageView
         android:id="@+id/pokemon4Sprite"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/pokemon4"
         app:layout_constraintEnd_toEndOf="@+id/pokemon4"
         app:layout_constraintStart_toStartOf="@+id/pokemon4"
@@ -132,8 +173,12 @@
 
     <ImageView
         android:id="@+id/pokemon5Sprite"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/pokemon5"
         app:layout_constraintEnd_toEndOf="@+id/pokemon5"
         app:layout_constraintStart_toStartOf="@+id/pokemon5"
@@ -142,8 +187,12 @@
 
     <ImageView
         android:id="@+id/pokemon6Sprite"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/pokemon6"
         app:layout_constraintEnd_toEndOf="@+id/pokemon6"
         app:layout_constraintStart_toStartOf="@+id/pokemon6"
@@ -160,7 +209,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" >
+        app:layout_constraintVertical_bias="1.0">
 
     </androidx.viewpager.widget.ViewPager>
 

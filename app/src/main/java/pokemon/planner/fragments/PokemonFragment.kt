@@ -1,5 +1,6 @@
 package pokemon.planner.fragments
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -8,17 +9,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import pokemon.planner.R
 import pokemon.planner.TeamActivity
+import pokemon.planner.adapters.StatSummaryAdapter
 import pokemon.planner.model.Pokedex
 import pokemon.planner.model.Pokemon
 import pokemon.planner.model.TYPE
+import pokemon.planner.model.Team
+import pokemon.planner.adapters.obtainMethodAdapter
 
-class PokemonFragment(private var pokemon: Pokemon): Fragment() {
+class PokemonFragment(private var pokemon: Pokemon, private var team: Team, private var  ctx: Context): Fragment() {
+    private lateinit var ssa: StatSummaryAdapter
+    private lateinit var LayoutManger : LinearLayoutManager
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,7 +35,7 @@ class PokemonFragment(private var pokemon: Pokemon): Fragment() {
 
     ): View? {
         // Inflate the layout for this fragment
-        val view: View = inflater.inflate(R.layout.teamviewer_pokemon_fragment, container, false)
+        val view: View = inflater.inflate(R.layout.pokemon_fragment, container, false)
             if(!pokemon.number.equals("-1")){
                 var image = view.findViewById<ImageView>(R.id.pokemonImage)
                 image.setImageBitmap(Pokedex.largeImages.get(Integer.parseInt(pokemon.number)-1))
@@ -35,37 +43,36 @@ class PokemonFragment(private var pokemon: Pokemon): Fragment() {
                 var nameLabel = view.findViewById<TextView>(R.id.pokemonNameLabel)
                 nameLabel.setText(pokemon.name)
 
+
                 var numberLabel = view.findViewById<TextView>(R.id.numberLabel)
                 numberLabel.setText("#" + (pokemon.number).toString())
 
-                val hpBar = view.findViewById<ProgressBar>(R.id.HPbar)
-                hpBar.max = 200
-                hpBar.progress = pokemon.stats[0]
+                var statList = view.findViewById<RecyclerView>(R.id.statList)
+                var llm = LinearLayoutManager(ctx)
+
+                var statNames = Pokedex.getGenSpecificStatNames(team)
+                var statValues : Array<Int>
+                if(team.version.generation == 1){
+                    statValues = pokemon.gen1Stats
+                }else{
+                    statValues = pokemon.stats
+                }
+                statList.layoutManager = llm
+                statList.adapter = StatSummaryAdapter(ctx, team, statNames, statValues)
+
+                //createObtainMethodComponent(view.findViewById(R.id.replaceView) as ViewGroup, pokemon)
+                var obtainRecycler = view.findViewById<RecyclerView>(R.id.obtainRecyclerView)
+
+                LayoutManger = LinearLayoutManager(ctx)
+                obtainRecycler.layoutManager = LayoutManger
+                obtainRecycler.adapter = obtainMethodAdapter(ctx, pokemon, team)
 
 
-                val atkBar = view.findViewById<ProgressBar>(R.id.AtkBar)
-                atkBar.max= 200
-                atkBar.progress = pokemon.stats[1]
 
-                val defBar = view.findViewById<ProgressBar>(R.id.DefBar)
-                defBar.max = 200
-                defBar.progress = pokemon.stats[2]
 
-                val spAtkBar = view.findViewById<ProgressBar>(R.id.SpAtkBar)
-                spAtkBar.max = 200
-                spAtkBar.progress = pokemon.stats[3]
 
-                var spDefkBar = view.findViewById<ProgressBar>(R.id.SpDefBar)
-                spDefkBar.max = 200
-                spDefkBar.progress = pokemon.stats[4]
-
-                var speedBar = view.findViewById<ProgressBar>(R.id.SpeedBar)
-                speedBar.max = 200
-                speedBar.progress = pokemon.stats[5]
-
-                var totalBar = view.findViewById<ProgressBar>(R.id.TotalBar)
-                totalBar.max = 700
-                totalBar.progress = pokemon.stats[6]
+                /*var replaceView = view.findViewById<ConstraintLayout>(R.id.constraintLayout)
+                replaceView = testView*/
 
                 var card1 = view.findViewById<CardView>(R.id.card1)
                 var card2 = view.findViewById<CardView>(R.id.card2)
@@ -109,6 +116,24 @@ class PokemonFragment(private var pokemon: Pokemon): Fragment() {
             }
         return view
     }
+
+
+
+    /*private fun createObtainMethodComponent(view: View, parent: ViewGroup, pokemon: Pokemon){
+        val inflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        //val parent = view.findViewById(R.id.replaceView) as ViewGroup
+        inflater.inflate(R.layout.acquisition, parent)
+        var testView = view.findViewById<ViewGroup>(R.id.replaceView)
+        testView.findViewById<TextView>(R.id.numberNameLabel).text = ("#" + pokemon.number + " " + pokemon.name + " is obtained by:")
+        testView.findViewById<TextView>(R.id.obtainedByLabel).text = getObtainMethod(pokemon, team)
+        testView.findViewById<ImageView>(R.id.image).setImageBitmap(Pokedex.smallImages[Integer.parseInt(pokemon.number)-1])
+        if(getObtainMethod(pokemon,team).equals("Evolves from other pokemon")){
+            inflater.inflate(R.layout.acquisition, testView.findViewById(R.id.replaceView))
+            //createObtainMethodComponent(view, testView as ViewGroup, Pokedex.pokedex[Integer.parseInt(pokemon.number)-2])
+        }
+    }*/
+
+
 
 
 }
