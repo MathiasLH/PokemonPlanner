@@ -177,36 +177,36 @@ class OptionsAdapter(private val context: Context, private val options: ArrayLis
         }
 
         if(recycler.findViewWithTag<EditText>("hpminInput") != null){
-            if(!recycler.findViewWithTag<EditText>("hpminInput").text.toString().equals("")) searchForm.hpMin = Integer.parseInt(recycler.findViewWithTag<EditText>("hpminInput").text.toString())
-            if(!recycler.findViewWithTag<EditText>("hpmaxInput").text.toString().equals("")) searchForm.hpMax = Integer.parseInt(recycler.findViewWithTag<EditText>("hpmaxInput").text.toString())
+            if(!recycler.findViewWithTag<EditText>("hpminInput").text.toString().equals("")){ searchForm.hpMin = Integer.parseInt(recycler.findViewWithTag<EditText>("hpminInput").text.toString())}else{searchForm.hpMin = 0}
+            if(!recycler.findViewWithTag<EditText>("hpmaxInput").text.toString().equals("")){ searchForm.hpMax = Integer.parseInt(recycler.findViewWithTag<EditText>("hpmaxInput").text.toString())}else{searchForm.hpMax = 0}
         }
         if(recycler.findViewWithTag<EditText>("attackminInput") != null){
-            if(!recycler.findViewWithTag<EditText>("attackminInput").text.toString().equals("")) searchForm.attackMin = Integer.parseInt(recycler.findViewWithTag<EditText>("attackminInput").text.toString())
-            if(!recycler.findViewWithTag<EditText>("attackmaxInput").text.toString().equals("")) searchForm.attackMax = Integer.parseInt(recycler.findViewWithTag<EditText>("attackmaxInput").text.toString())
+            if(!recycler.findViewWithTag<EditText>("attackminInput").text.toString().equals("")){ searchForm.attackMin = Integer.parseInt(recycler.findViewWithTag<EditText>("attackminInput").text.toString())}else{searchForm.attackMin = 0}
+            if(!recycler.findViewWithTag<EditText>("attackmaxInput").text.toString().equals("")){ searchForm.attackMax = Integer.parseInt(recycler.findViewWithTag<EditText>("attackmaxInput").text.toString())}else{searchForm.attackMax = 0}
         }
         if(recycler.findViewWithTag<EditText>("defenseminInput") != null){
-            if(!recycler.findViewWithTag<EditText>("defenseminInput").text.toString().equals("")) searchForm.defenseMin = Integer.parseInt(recycler.findViewWithTag<EditText>("defenseminInput").text.toString())
-            if(!recycler.findViewWithTag<EditText>("defensemaxInput").text.toString().equals("")) searchForm.defenseMax = Integer.parseInt(recycler.findViewWithTag<EditText>("defensemaxInput").text.toString())
+            if(!recycler.findViewWithTag<EditText>("defenseminInput").text.toString().equals("")){ searchForm.defenseMin = Integer.parseInt(recycler.findViewWithTag<EditText>("defenseminInput").text.toString())}else{searchForm.defenseMin = 0}
+            if(!recycler.findViewWithTag<EditText>("defensemaxInput").text.toString().equals("")){ searchForm.defenseMax = Integer.parseInt(recycler.findViewWithTag<EditText>("defensemaxInput").text.toString())}else{searchForm.defenseMax = 0}
         }
         if(recycler.findViewWithTag<EditText>("specialminInput") != null){
-            if(!recycler.findViewWithTag<EditText>("specialminInput").text.toString().equals("")) searchForm.specialMin = Integer.parseInt(recycler.findViewWithTag<EditText>("specialminInput").text.toString())
-            if(!recycler.findViewWithTag<EditText>("specialmaxInput").text.toString().equals("")) searchForm.specialMax = Integer.parseInt(recycler.findViewWithTag<EditText>("specialmaxInput").text.toString())
+            if(!recycler.findViewWithTag<EditText>("specialminInput").text.toString().equals("")){ searchForm.specialMin = Integer.parseInt(recycler.findViewWithTag<EditText>("specialminInput").text.toString())}else{searchForm.specialMin = 0}
+            if(!recycler.findViewWithTag<EditText>("specialmaxInput").text.toString().equals("")){ searchForm.specialMax = Integer.parseInt(recycler.findViewWithTag<EditText>("specialmaxInput").text.toString())}else{searchForm.specialMax = 0}
         }
         if(recycler.findViewWithTag<EditText>("spattackminInput") != null){
-            if(!recycler.findViewWithTag<EditText>("spattackminInput").text.toString().equals("")) searchForm.spAttackMin = Integer.parseInt(recycler.findViewWithTag<EditText>("spattackminInput").text.toString())
-            if(!recycler.findViewWithTag<EditText>("spattackmaxInput").text.toString().equals("")) searchForm.spAttackMax = Integer.parseInt(recycler.findViewWithTag<EditText>("spattackmaxInput").text.toString())
+            if(!recycler.findViewWithTag<EditText>("spattackminInput").text.toString().equals("")){ searchForm.spAttackMin = Integer.parseInt(recycler.findViewWithTag<EditText>("spattackminInput").text.toString())}else{searchForm.spAttackMin = 0}
+            if(!recycler.findViewWithTag<EditText>("spattackmaxInput").text.toString().equals("")){ searchForm.spAttackMax = Integer.parseInt(recycler.findViewWithTag<EditText>("spattackmaxInput").text.toString())}else{searchForm.spAttackMax = 0}
         }
         if(recycler.findViewWithTag<EditText>("spdefenseminInput") != null){
-            if(!recycler.findViewWithTag<EditText>("spdefenseminInput").text.toString().equals("")) searchForm.spDefenseMin = Integer.parseInt(recycler.findViewWithTag<EditText>("spdefenseminInput").text.toString())
-            if(!recycler.findViewWithTag<EditText>("spdefensemaxInput").text.toString().equals("")) searchForm.spDefenseMax = Integer.parseInt(recycler.findViewWithTag<EditText>("spdefensemaxInput").text.toString())
+            if(!recycler.findViewWithTag<EditText>("spdefenseminInput").text.toString().equals("")){ searchForm.spDefenseMin = Integer.parseInt(recycler.findViewWithTag<EditText>("spdefenseminInput").text.toString())}else{searchForm.spDefenseMin = 0}
+            if(!recycler.findViewWithTag<EditText>("spdefensemaxInput").text.toString().equals("")){ searchForm.spDefenseMax = Integer.parseInt(recycler.findViewWithTag<EditText>("spdefensemaxInput").text.toString())}else{searchForm.spDefenseMax = 0}
         }
-        if(recycler.findViewWithTag<EditText>("specialminInput") != null){
-            if(!recycler.findViewWithTag<EditText>("specialminInput").text.toString().equals("")) searchForm.specialMin = Integer.parseInt(recycler.findViewWithTag<EditText>("specialminInput").text.toString())
-            if(!recycler.findViewWithTag<EditText>("specialmaxInput").text.toString().equals("")) searchForm.specialMax = Integer.parseInt(recycler.findViewWithTag<EditText>("specialmaxInput").text.toString())
+        if(recycler.findViewWithTag<EditText>("speedminInput") != null){
+            if(!recycler.findViewWithTag<EditText>("speedminInput").text.toString().equals("")){ searchForm.speedMin = Integer.parseInt(recycler.findViewWithTag<EditText>("speedminInput").text.toString())}else{searchForm.speedMin = 0}
+            if(!recycler.findViewWithTag<EditText>("speedmaxInput").text.toString().equals("")){ searchForm.speedMax = Integer.parseInt(recycler.findViewWithTag<EditText>("speedmaxInput").text.toString())}else{searchForm.speedMax = 0}
         }
         if(recycler.findViewWithTag<EditText>("totalminInput") != null){
-            if(!recycler.findViewWithTag<EditText>("totalminInput").text.toString().equals("")) searchForm.totalMin = Integer.parseInt(recycler.findViewWithTag<EditText>("totalminInput").text.toString())
-            if(!recycler.findViewWithTag<EditText>("totalmaxInput").text.toString().equals("")) searchForm.totalMax = Integer.parseInt(recycler.findViewWithTag<EditText>("totalmaxInput").text.toString())
+            if(!recycler.findViewWithTag<EditText>("totalminInput").text.toString().equals("")){ searchForm.totalMin = Integer.parseInt(recycler.findViewWithTag<EditText>("totalminInput").text.toString())}else{searchForm.totalMin = 0}
+            if(!recycler.findViewWithTag<EditText>("totalmaxInput").text.toString().equals("")){ searchForm.totalMax = Integer.parseInt(recycler.findViewWithTag<EditText>("totalmaxInput").text.toString())}else{searchForm.totalMax = 0}
         }
         if(recycler.findViewWithTag<Spinner>("pabilitySpinner") != null){
             searchForm.ability1 = recycler.findViewWithTag<Spinner>("pabilitySpinner").selectedItem.toString()

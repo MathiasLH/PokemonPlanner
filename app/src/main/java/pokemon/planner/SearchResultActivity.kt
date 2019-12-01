@@ -163,7 +163,7 @@ class SearchResultActivity : AppCompatActivity() {
             pokemonList2 = pokemonList2.filter { pokemon -> pokemon.learnSets[team.version.versionGroupId].isLearnable(searchForm.move) }
             println("yo")
         }
-        
+
         return ArrayList(pokemonList2)
     }
 
