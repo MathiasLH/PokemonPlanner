@@ -31,6 +31,7 @@ class PokedexReader(private val context: Context) {
         var evolvesTo = Array<ArrayList<Int>>(Pokedex.pokedexSize) {ArrayList<Int>()}
         var evolvesFrom = Array<ArrayList<Int>>(Pokedex.pokedexSize) {ArrayList<Int>()}
         var evolveCriteria = Array<String>(Pokedex.pokedexSize) {""}
+        var learnSets = Array<Array<LearnSet>>(Pokedex.pokedexSize) {Array<LearnSet>(14) { LearnSet(ArrayList<Move>(), ArrayList<Int>(), ArrayList<Int>())}}
 
 
         //read name and ID of pokemon
@@ -77,11 +78,11 @@ class PokedexReader(private val context: Context) {
         //read info about abilities
         context.assets.open("abilities.csv").bufferedReader().use {
             it.readLine()
-            for(i in 0..292){
+            for(i in 0..232){
                 val line: String? = it.readLine()
                 if(line != null){
                     var inputArray = line.split(",")
-                    Pokedex.abilities[Integer.parseInt(inputArray[0])] = inputArray[1]
+                    Pokedex.abilities[Integer.parseInt(inputArray[0])] = inputArray[1].replace('-', ' ')
                 }
             }
         }
@@ -157,6 +158,32 @@ class PokedexReader(private val context: Context) {
             println("reading locations")
         }
 
+        context.assets.open("moves.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..728){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    Pokedex.moves[Integer.parseInt(inputArray[0])] = Move(inputArray[1].replace('-', ' '), Integer.parseInt(inputArray[0]), typeIDtoTYPE(inputArray[3]),inputArray[9])
+                }
+            }
+            println("reading locations")
+        }
+
+        context.assets.open("pokemon_moves.csv").bufferedReader().use {
+            it.readLine()
+            for(i in 0..410113){
+                val line: String? = it.readLine()
+                if(line != null){
+                    var inputArray = line.split(",")
+                    if(Integer.parseInt(inputArray[1]) <= 14){
+                        learnSets[Integer.parseInt(inputArray[0])-1][Integer.parseInt(inputArray[1])-1].addMove(Pokedex.moves[Integer.parseInt(inputArray[2])] as Move, Integer.parseInt(inputArray[3]), Integer.parseInt(inputArray[4]))
+                    }
+                }
+            }
+            println("reading learnsets")
+        }
+
         for(i in 0..Pokedex.pokedexSize-1){
             gen1StatArray[i][0] = statsArray[i][0]
             gen1StatArray[i][1] = statsArray[i][1]
@@ -165,7 +192,7 @@ class PokedexReader(private val context: Context) {
             gen1StatArray[i][4] = statsArray[i][5]
             gen1StatArray[i][5] = statsArray[i][0] + gen1StatArray[i][1] + gen1StatArray[i][2] + gen1StatArray[i][3] + gen1StatArray[i][4]
             statsArray[i][6] = statsArray[i][0] + statsArray[i][1] + statsArray[i][2] + statsArray[i][3] + statsArray[i][4] + statsArray[i][5]
-            Pokedex.addPokemonToPokedex(Pokemon(idArray[i], nameArray[i], statsArray[i], gen1StatArray[i], primaryTypeArray[i], secondaryTypeArray[i], primaryAbilityArray[i], secondaryAbilityArray[i], minimumLevelArray[i], evolvesFrom[i], evolvesTo[i], evolveCriteria[i]))
+            Pokedex.addPokemonToPokedex(Pokemon(idArray[i], nameArray[i], statsArray[i], gen1StatArray[i], primaryTypeArray[i], secondaryTypeArray[i], primaryAbilityArray[i], secondaryAbilityArray[i], minimumLevelArray[i], evolvesFrom[i], evolvesTo[i], evolveCriteria[i], learnSets[i]))
         }
         readEvolutionFiles()
         readAvailabilityFiles()
@@ -183,12 +210,6 @@ class PokedexReader(private val context: Context) {
                 val line: String? = it.readLine()
                 if(line != null){
                     var inputArray = line.split(",")
-                    if(inputArray[4].equals("245")){
-                        println("Found suicune")
-                        //j++
-                        //println(j.toString() + " generation 2 encounters were found.")
-                    }
-
                     //black majiks
                     //reads the entire encounter file, sorts the encounters into each list (which represent one game each)
                     //THEN sorts those encounters for each pokemon in that game.

@@ -45,7 +45,7 @@ class TeamActivity : FragmentActivity() {
             listOfPokemonButtons[x].setOnClickListener {
                 if(team.pokemonList[Integer.parseInt(listOfPokemonButtons[x].tag.toString())].number.equals("-1")){
                     lastPressedBall = Integer.parseInt(listOfPokemonButtons[x].tag as String)
-                    val intent = Intent(this, PokemonSearcher::class.java)
+                    val intent = Intent(this, PokemonSearchActivity::class.java)
                     intent.putExtra("team", team)
                     startActivityForResult(intent, 1)
                 }else{

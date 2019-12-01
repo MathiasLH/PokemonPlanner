@@ -54,6 +54,11 @@ class TypeSelectorAdapter(private val context: Context, private val types: Array
 
     }
 
+    fun setSelected(type: TYPE){
+        currentType = type
+        notifyDataSetChanged()
+    }
+
 
     class ViewHolder (view: View) : RecyclerView.ViewHolder(view){
 

@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.statrange.view.*
 import pokemon.planner.R
 import pokemon.planner.model.SearchForm
 
-class StatSelectorAdapter(private val context: Context, private val stats: ArrayList<String>) : RecyclerView.Adapter<StatSelectorAdapter.ViewHolder>(){
+class StatSelectorAdapter(private val context: Context, private val stats: Array<String>) : RecyclerView.Adapter<StatSelectorAdapter.ViewHolder>(){
     private var holders = ArrayList<ViewHolder>()
 
 

@@ -101,30 +101,69 @@ class SearchResultActivity : AppCompatActivity() {
             pokemonList2 = pokemonList2.filter { pokemon -> pokemon.secondaryType.equals(searchForm.type2) }
         }
 
-        //stats
-
-        if(searchForm.version.generation == 1){
-        for(x in 0..searchForm.minStats.size-1) {
-            if (searchForm.minStats[x] > 0) {
-                pokemonList2 = pokemonList2.filter { pokemon -> pokemon.gen1Stats[x] >= searchForm.minStats[x] }
-            }
-
-            if (searchForm.maxStats[x] > 0) {
-                pokemonList2 = pokemonList2.filter { pokemon -> pokemon.gen1Stats[x] <= searchForm.maxStats[x] }
-            }
-        }
-        }else{
-        for(x in 0..searchForm.minStats.size-1) {
-            if (searchForm.minStats[x] > 0) {
-                pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[x] >= searchForm.minStats[x] }
-            }
-
-            if (searchForm.maxStats[x] > 0) {
-                pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[x] <= searchForm.maxStats[x] }
-            }
-        }
+        if(searchForm.hpMin != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[0] >= searchForm.hpMin }
         }
 
+        if(searchForm.hpMax != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[0] <= searchForm.hpMax }
+        }
+
+        if(searchForm.attackMin != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[1] >= searchForm.attackMin }
+        }
+
+        if(searchForm.attackMax != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[1] <= searchForm.attackMax }
+        }
+        if(searchForm.defenseMin != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[2] >= searchForm.defenseMin }
+        }
+
+        if(searchForm.defenseMax != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[2] <= searchForm.defenseMax }
+        }
+        if(searchForm.specialMin != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.gen1Stats[3] >= searchForm.specialMin }
+        }
+
+        if(searchForm.specialMax != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.gen1Stats[3] <= searchForm.specialMax }
+        }
+
+        if(searchForm.spAttackMin != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[3] >= searchForm.hpMin }
+        }
+
+        if(searchForm.spAttackMax != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[3] <= searchForm.hpMax }
+        }
+
+        if(searchForm.spDefenseMin != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[4] >= searchForm.spDefenseMin }
+        }
+
+        if(searchForm.spDefenseMax != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[4] <= searchForm.spDefenseMax }
+        }
+        if(searchForm.speedMin != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[5] >= searchForm.hpMin }
+        }
+
+        if(searchForm.speedMax != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[5] <= searchForm.hpMax }
+        }
+        if(!searchForm.ability1.equals("")){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.ability1.equals(searchForm.ability1) }
+        }
+        if(!searchForm.ability2.equals("")){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.ability2.equals(searchForm.ability2) }
+        }
+        if(searchForm.move.id != -1){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.learnSets[team.version.versionGroupId].isLearnable(searchForm.move) }
+            println("yo")
+        }
+        
         return ArrayList(pokemonList2)
     }
 

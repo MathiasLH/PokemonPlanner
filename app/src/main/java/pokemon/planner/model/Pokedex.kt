@@ -9,9 +9,9 @@ object Pokedex{
     var locationNames = mutableMapOf<Int, String>()
     var locationIds = mutableMapOf<Int, Int>()
     var abilities = mutableMapOf<Int, String>()
+    var moves = mutableMapOf<Int, Move>()
 
     var smallImages = Array<Bitmap?>(pokedexSize) {null}
-
     var largeImages = Array<Bitmap?>(pokedexSize) {null}
 
     //Create two dimensional array. The first index represents each pokemon in the pokedex.
@@ -24,6 +24,8 @@ object Pokedex{
     var pokemonAvailability = Array<Array<String>>(pokedexSize) {Array<String>(36){"U"} }
 
     var encounters = Array<Array<ArrayList<Encounter>>>(22) {Array<ArrayList<Encounter>>(Pokedex.pokedexSize) {ArrayList<Encounter>()}}
+
+
 
     fun addPokemonToPokedex(pokemon: Pokemon){
 
@@ -50,6 +52,24 @@ object Pokedex{
             statNames = arrayOf("HP", "Attack", "Defense", "Sp. Attack", "Sp. Defense", "Speed", "Total")
         }
         return statNames
+    }
+    fun getGenSpecificTypes(team: Team):ArrayList<TYPE>{
+        if(team.version.generation == 1){
+            return arrayListOf(TYPE.NONE, TYPE.NORMAL, TYPE.FIGHTING, TYPE.FLYING, TYPE.POISON, TYPE.GROUND, TYPE.ROCK, TYPE.BUG, TYPE.GHOST, TYPE.FIRE, TYPE.WATER, TYPE.GRASS, TYPE.ELECTRIC, TYPE.PSYCHIC, TYPE.ICE, TYPE.DRAGON)
+        }else{
+            return arrayListOf(TYPE.NONE, TYPE.NORMAL, TYPE.FIGHTING, TYPE.FLYING, TYPE.POISON, TYPE.GROUND, TYPE.ROCK, TYPE.BUG, TYPE.GHOST, TYPE.STEEL, TYPE.FIRE, TYPE.WATER, TYPE.GRASS, TYPE.ELECTRIC, TYPE.PSYCHIC, TYPE.ICE, TYPE.DRAGON, TYPE.DARK)
+        }
+    }
+
+    fun moveNameToMove(input: String): Move{
+        for(x in 0..moves.size){
+            if(moves[x] != null){
+                if((moves[x] as Move).name.equals(input)){
+                    return moves[x] as Move
+                }
+            }
+        }
+        return moves[1] as Move
     }
 
 

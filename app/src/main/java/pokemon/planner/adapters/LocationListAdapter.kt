@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.location_list_item.view.*
 import pokemon.planner.R
 
-class locationListAdapter(private val context: Context, private val locations: ArrayList<String>): RecyclerView.Adapter<locationListAdapter.ViewHolder>(){
+class LocationListAdapter(private val context: Context, private val locations: ArrayList<String>): RecyclerView.Adapter<LocationListAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.location_list_item, parent, false))
     }
