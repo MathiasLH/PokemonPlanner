@@ -49,7 +49,6 @@ class PokemonFragment(private var pokemon: Pokemon, private var team: Team, priv
 
                 var statList = view.findViewById<RecyclerView>(R.id.statList)
                 var llm = LinearLayoutManager(ctx)
-
                 var statNames = Pokedex.getGenSpecificStatNames(team)
                 var statValues : Array<Int>
                 if(team.version.generation == 1){
@@ -58,7 +57,7 @@ class PokemonFragment(private var pokemon: Pokemon, private var team: Team, priv
                     statValues = pokemon.stats
                 }
                 statList.layoutManager = llm
-                statList.adapter = StatSummaryAdapter(ctx, team, statNames, statValues)
+                statList.adapter = StatSummaryAdapter(ctx, team, statNames, statValues, 1)
 
                 //createObtainMethodComponent(view.findViewById(R.id.replaceView) as ViewGroup, pokemon)
                 var obtainRecycler = view.findViewById<RecyclerView>(R.id.obtainRecyclerView)

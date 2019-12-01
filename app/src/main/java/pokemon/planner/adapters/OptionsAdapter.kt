@@ -47,7 +47,7 @@ class OptionsAdapter(private val context: Context, private val options: ArrayLis
              var llm = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
              var types = Pokedex.getGenSpecificTypes(team)
              types.remove(TYPE.NONE)
-             var tsa = TypeSelectorAdapter(context, types)
+             var tsa = TypeSelectorAdapter(context, types, true)
              tsa.setSelected(searchForm.type1)
              var recyclerView = testView.findViewWithTag<RecyclerView>("ptypeInput")
              recyclerView.layoutManager = llm
@@ -56,7 +56,7 @@ class OptionsAdapter(private val context: Context, private val options: ArrayLis
          }else if(options.get(position).equals("Secondary Type")){
              var testView = LayoutInflater.from(context).inflate(R.layout.optionlist_stypeoption, holder.optionContainer as ViewGroup, false)
              var llm = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-             var tsa = TypeSelectorAdapter(context, Pokedex.getGenSpecificTypes(team))
+             var tsa = TypeSelectorAdapter(context, Pokedex.getGenSpecificTypes(team), true)
              tsa.setSelected(searchForm.type2)
              var recyclerView = testView.findViewWithTag<RecyclerView>("stypeInput")
              recyclerView.layoutManager = llm
@@ -162,17 +162,17 @@ class OptionsAdapter(private val context: Context, private val options: ArrayLis
     fun returnUserInput(): SearchForm{
 
         if(recycler.findViewWithTag<EditText>("nameInput") != null){
-            searchForm.name = recycler!!.findViewWithTag<EditText>("nameInput").text.toString()
+            searchForm.name = recycler.findViewWithTag<EditText>("nameInput").text.toString()
         }
         if(recycler.findViewWithTag<EditText>("numberInput") != null){
-            searchForm.number = recycler!!.findViewWithTag<EditText>("numberInput").text.toString()
+            searchForm.number = recycler.findViewWithTag<EditText>("numberInput").text.toString()
         }
         if(recycler.findViewWithTag<EditText>("ptypeInput") != null){
-            var view = recycler!!.findViewWithTag<RecyclerView>("ptypeInput")
+            var view = recycler.findViewWithTag<RecyclerView>("ptypeInput")
             searchForm.type1 = (view.adapter as TypeSelectorAdapter).currentType
         }
         if(recycler.findViewWithTag<EditText>("stypeInput") != null){
-            var view = recycler!!.findViewWithTag<RecyclerView>("stypeInput")
+            var view = recycler.findViewWithTag<RecyclerView>("stypeInput")
             searchForm.type2 = (view.adapter as TypeSelectorAdapter).currentType
         }
 

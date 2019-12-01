@@ -29,9 +29,9 @@ class PokemonSearcher : AppCompatActivity() {
         var typeSelector2 = findViewById<RecyclerView>(R.id.type2Selector)
         typeSelector1.layoutManager = typeSelector1LayoutManager
         typeSelector2.layoutManager = typeSelector2LayoutManager
-        var tsa  = TypeSelectorAdapter(this, Pokedex.getGenSpecificTypes(team))
+        var tsa  = TypeSelectorAdapter(this, Pokedex.getGenSpecificTypes(team), true)
         typeSelector1.adapter = tsa
-        var tsa2 = TypeSelectorAdapter(this, Pokedex.getGenSpecificTypes(team))
+        var tsa2 = TypeSelectorAdapter(this, Pokedex.getGenSpecificTypes(team), true)
         typeSelector2.adapter = tsa2
 
 
