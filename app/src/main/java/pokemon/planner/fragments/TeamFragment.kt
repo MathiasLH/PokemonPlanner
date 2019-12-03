@@ -67,7 +67,7 @@ class TeamFragment(private var team: Team): Fragment() {
                 }
             }else{
                 for(x in 0..pokemon.stats.size-1){
-                    statValues[x] += pokemon.gen1Stats[x]
+                    statValues[x] += pokemon.stats[x]
 
                 }
             }
