@@ -429,7 +429,9 @@ class PokedexReader(private val context: Context) {
                 pokemonNumberWithZeroes = pokemon.number
             }
             var url: String = "https://www.serebii.net/pokedex-xy/icon/" + pokemonNumberWithZeroes +".png"
-            saveFile(getBitmapFromURL(url), "small" + pokemon.number)
+            val smallImage = getBitmapFromURL(url);
+            saveFile(smallImage, "small" + pokemon.number)
+            Pokedex.smallImages[Integer.parseInt(pokemon.number)-1] = smallImage
             //smallImages.add(Integer.parseInt(pokemon.number)-1, getBitmapFromURL(url))
             uiThread {
             }
@@ -439,8 +441,9 @@ class PokedexReader(private val context: Context) {
     private fun downloadLargeImages(pokemon: Pokemon) {
         doAsync {
             var url: String = "https://www.serebii.net/art/th/"+ pokemon.number + ".png"
-            saveFile(getBitmapFromURL(url), "large"+pokemon.number)
-            Pokedex.largeImages[Integer.parseInt(pokemon.number)-1] = getBitmapFromURL(url)
+            val largeImage = getBitmapFromURL(url)
+            saveFile(largeImage, "large"+pokemon.number)
+            Pokedex.largeImages[Integer.parseInt(pokemon.number)-1] = largeImage
             uiThread {
             }
         }
