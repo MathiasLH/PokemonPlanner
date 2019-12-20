@@ -13,7 +13,7 @@ import pokemon.planner.model.Pokemon
 import pokemon.planner.model.Team
 import pokemon.planner.model.Pokedex
 
-class obtainMethodAdapter(private val context: Context, private val pokemon: Pokemon, private val team: Team): RecyclerView.Adapter<obtainMethodAdapter.ViewHolder>() {
+class ObtainMethodAdapter(private val context: Context, private val pokemon: Pokemon, private val team: Team): RecyclerView.Adapter<ObtainMethodAdapter.ViewHolder>() {
     private lateinit var nestedLayoutManger : LinearLayoutManager
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.acquisition, parent, false))
@@ -42,9 +42,9 @@ class obtainMethodAdapter(private val context: Context, private val pokemon: Pok
                 if(filteredLocations.size == 0){
                     filteredLocations.add("Data missing")
                 }
-                holder.nestedRecycler.adapter = locationListAdapter(context, filteredLocations)
+                holder.nestedRecycler.adapter = LocationListAdapter(context, filteredLocations)
             }else{
-                holder.nestedRecycler.adapter = obtainMethodAdapter(context, Pokedex.pokedex.get(pokemon.evolvesFrom.get(0)-1), team)
+                holder.nestedRecycler.adapter = ObtainMethodAdapter(context, Pokedex.pokedex.get(pokemon.evolvesFrom.get(0)-1), team)
                 if(pokemon.minLevel == -1){
                     holder.numberName.text = ("#" + pokemon.number + " " + pokemon.name + " evolves with " + pokemon.evolveCriteria + " from")
                 }else{
@@ -63,7 +63,7 @@ class obtainMethodAdapter(private val context: Context, private val pokemon: Pok
             if(filteredLocations.size == 0){
                 filteredLocations.add("Data missing")
             }
-            holder.nestedRecycler.adapter = locationListAdapter(context, filteredLocations)
+            holder.nestedRecycler.adapter = LocationListAdapter(context, filteredLocations)
         }
     }
 

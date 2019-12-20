@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.type_selector_element.view.*
 import pokemon.planner.model.TYPE
 
 
-class TypeSelectorAdapter(private val context: Context, private val types: ArrayList<TYPE>) : RecyclerView.Adapter<TypeSelectorAdapter.ViewHolder>() {
+class TypeSelectorAdapter(private val context: Context, private val types: ArrayList<TYPE>, private val clickable: Boolean) : RecyclerView.Adapter<TypeSelectorAdapter.ViewHolder>() {
     var currentType: TYPE = TYPE.NONE
     private var lastPressedType: TYPE? = TYPE.NONE
     private var lastPressedHolder: ViewHolder? = null
@@ -46,12 +46,18 @@ class TypeSelectorAdapter(private val context: Context, private val types: Array
         }else{
             holder.card.background = unSelected
         }
-        holder.card.setOnClickListener {
-            holder.card.background = selected
-            currentType = types.get(position)
-            this.notifyDataSetChanged()
+        if(clickable){
+            holder.card.setOnClickListener {
+                holder.card.background = selected
+                currentType = types.get(position)
+                this.notifyDataSetChanged()
+            }
         }
+    }
 
+    fun setSelected(type: TYPE){
+        currentType = type
+        notifyDataSetChanged()
     }
 
 

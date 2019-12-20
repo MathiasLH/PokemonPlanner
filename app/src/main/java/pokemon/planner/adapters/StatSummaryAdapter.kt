@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.stat_summary_list_item.view.*
 import pokemon.planner.R
 import pokemon.planner.model.Team
 
-class StatSummaryAdapter(private val context: Context, private val team: Team,private val statNames: Array<String>, private val statValues: Array<Int>) : RecyclerView.Adapter<StatSummaryAdapter.ViewHolder>(){
+class StatSummaryAdapter(private val context: Context, private val team: Team,private val statNames: Array<String>, private val statValues: Array<Int>, private val factor: Int) : RecyclerView.Adapter<StatSummaryAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         var vh = ViewHolder(LayoutInflater.from(context).inflate(R.layout.stat_summary_list_item, parent, false))
         return vh
@@ -23,17 +23,14 @@ class StatSummaryAdapter(private val context: Context, private val team: Team,pr
         holder.statName.text = statNames.get(position)
             holder.statValue.text = statValues.get(position).toString()
             if(statNames.get(position).equals("Total")){
-                holder.statMaxValue.text = "700"
-                holder.statBar.max = 700
+                holder.statMaxValue.text = (700*factor).toString()
+                holder.statBar.max = 700 * factor
                 holder.statBar.progress = statValues.get(position)
             }else{
-                holder.statMaxValue.text = "200"
-                holder.statBar.max = 200
+                holder.statMaxValue.text = (200 * factor).toString()
+                holder.statBar.max = 200 * factor
                 holder.statBar.progress = statValues.get(position)
             }
-
-
-
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

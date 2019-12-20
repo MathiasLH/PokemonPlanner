@@ -21,7 +21,7 @@ import pokemon.planner.model.Pokedex
 import pokemon.planner.model.Pokemon
 import pokemon.planner.model.TYPE
 import pokemon.planner.model.Team
-import pokemon.planner.adapters.obtainMethodAdapter
+import pokemon.planner.adapters.ObtainMethodAdapter
 
 class PokemonFragment(private var pokemon: Pokemon, private var team: Team, private var  ctx: Context): Fragment() {
     private lateinit var ssa: StatSummaryAdapter
@@ -49,7 +49,6 @@ class PokemonFragment(private var pokemon: Pokemon, private var team: Team, priv
 
                 var statList = view.findViewById<RecyclerView>(R.id.statList)
                 var llm = LinearLayoutManager(ctx)
-
                 var statNames = Pokedex.getGenSpecificStatNames(team)
                 var statValues : Array<Int>
                 if(team.version.generation == 1){
@@ -58,14 +57,14 @@ class PokemonFragment(private var pokemon: Pokemon, private var team: Team, priv
                     statValues = pokemon.stats
                 }
                 statList.layoutManager = llm
-                statList.adapter = StatSummaryAdapter(ctx, team, statNames, statValues)
+                statList.adapter = StatSummaryAdapter(ctx, team, statNames, statValues, 1)
 
                 //createObtainMethodComponent(view.findViewById(R.id.replaceView) as ViewGroup, pokemon)
                 var obtainRecycler = view.findViewById<RecyclerView>(R.id.obtainRecyclerView)
 
                 LayoutManger = LinearLayoutManager(ctx)
                 obtainRecycler.layoutManager = LayoutManger
-                obtainRecycler.adapter = obtainMethodAdapter(ctx, pokemon, team)
+                obtainRecycler.adapter = ObtainMethodAdapter(ctx, pokemon, team)
 
 
 

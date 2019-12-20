@@ -15,7 +15,8 @@ class Pokemon(
     val minLevel: Int,
     val evolvesFrom: ArrayList<Int>,
     val evolvesTo: ArrayList<Int>,
-    var evolveCriteria: String
+    var evolveCriteria: String,
+    var learnSets: Array<LearnSet>
 ): Serializable{
 
 

@@ -9,10 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_pokemon_searcher.*
 import pokemon.planner.adapters.StatSelectorAdapter
 import pokemon.planner.adapters.TypeSelectorAdapter
-import pokemon.planner.model.GameVersion
-import pokemon.planner.model.SearchForm
-import pokemon.planner.model.TYPE
-import pokemon.planner.model.Team
+import pokemon.planner.model.*
 
 class PokemonSearcher : AppCompatActivity() {
     private lateinit var typeSelector1LayoutManager: LinearLayoutManager
@@ -30,28 +27,18 @@ class PokemonSearcher : AppCompatActivity() {
         typeSelector2LayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         var typeSelector1 = findViewById<RecyclerView>(R.id.type1Selector)
         var typeSelector2 = findViewById<RecyclerView>(R.id.type2Selector)
-        var listOfTypes: ArrayList<TYPE>
-        var listOfStats: ArrayList<String>
-        if(team.version.generation == 1){
-            listOfTypes = arrayListOf(TYPE.NONE, TYPE.NORMAL, TYPE.FIGHTING, TYPE.FLYING, TYPE.POISON, TYPE.GROUND, TYPE.ROCK, TYPE.BUG, TYPE.GHOST, TYPE.FIRE, TYPE.WATER, TYPE.GRASS, TYPE.ELECTRIC, TYPE.PSYCHIC, TYPE.ICE, TYPE.DRAGON)
-            listOfStats = arrayListOf<String>("HP", "Attack", "Defense", "Special", "Speed", "total")
-        }else{
-            listOfTypes = arrayListOf(TYPE.NONE, TYPE.NORMAL, TYPE.FIGHTING, TYPE.FLYING, TYPE.POISON, TYPE.GROUND, TYPE.ROCK, TYPE.BUG, TYPE.GHOST, TYPE.STEEL, TYPE.FIRE, TYPE.WATER, TYPE.GRASS, TYPE.ELECTRIC, TYPE.PSYCHIC, TYPE.ICE, TYPE.DRAGON, TYPE.DARK)
-            listOfStats = arrayListOf<String>("HP", "Attack", "Defense", "Special Attack", "Special Defense", "Speed", "total")
-        }
-
         typeSelector1.layoutManager = typeSelector1LayoutManager
         typeSelector2.layoutManager = typeSelector2LayoutManager
-        var tsa  = TypeSelectorAdapter(this, listOfTypes)
+        var tsa  = TypeSelectorAdapter(this, Pokedex.getGenSpecificTypes(team), true)
         typeSelector1.adapter = tsa
-        var tsa2 = TypeSelectorAdapter(this, listOfTypes)
+        var tsa2 = TypeSelectorAdapter(this, Pokedex.getGenSpecificTypes(team), true)
         typeSelector2.adapter = tsa2
 
 
         statRangeLayoutManager = LinearLayoutManager(this)
         var statRangeSelector = findViewById<RecyclerView>(R.id.statSelector)
         statRangeSelector.layoutManager = statRangeLayoutManager
-        ssa = StatSelectorAdapter(this, listOfStats)
+        ssa = StatSelectorAdapter(this, Pokedex.getGenSpecificStatNames(team))
 
         statRangeSelector.adapter = ssa
 
@@ -89,7 +76,7 @@ class PokemonSearcher : AppCompatActivity() {
     private fun createSearchForm(type1: TYPE, type2: TYPE): SearchForm {
         var stats = ssa.getContents()
 
-        return SearchForm(name.text.toString(), number.text.toString(), stats.get(0), stats.get(1), type1, type2, team.version)
+        return SearchForm("", "", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,TYPE.NONE,TYPE.NONE,"", "", Pokedex.moves[1] as Move, GameVersion.NONE)
 
     }
 }
