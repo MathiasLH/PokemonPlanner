@@ -23,7 +23,7 @@ import pokemon.planner.model.TYPE
 import pokemon.planner.model.Team
 import pokemon.planner.adapters.ObtainMethodAdapter
 
-class PokemonFragment(private var pokemon: Pokemon, private var team: Team, private var  ctx: Context): Fragment() {
+class PokemonFragment(private var pokemon: Pokemon, private var team: Team, private var  ctx: Context, private var hasDeleteButton: Boolean): Fragment() {
     private lateinit var ssa: StatSummaryAdapter
     private lateinit var LayoutManger : LinearLayoutManager
 
@@ -108,9 +108,13 @@ class PokemonFragment(private var pokemon: Pokemon, private var team: Team, priv
                     card2.background = background2
                     card1.background = background1
                 }
+
                  var deleteButton = view.findViewById<Button>(R.id.deleteButton)
                 deleteButton.setOnClickListener {
                     (activity as TeamActivity).deletepokemon()
+                }
+                if(!hasDeleteButton){
+                    deleteButton.visibility = View.INVISIBLE
                 }
             }
         return view

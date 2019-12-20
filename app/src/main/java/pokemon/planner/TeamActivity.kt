@@ -210,7 +210,7 @@ class TeamActivity : FragmentActivity() {
         override fun getItem(position: Int): Fragment {
             when(position){
              0 -> return TeamFragment(team)
-            else -> return PokemonFragment(team.pokemonList[position-1], team, applicationContext)
+            else -> return PokemonFragment(team.pokemonList[position-1], team, applicationContext, true)
             }
         }
     }

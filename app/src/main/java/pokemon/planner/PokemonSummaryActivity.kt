@@ -17,7 +17,7 @@ class PokemonSummaryActivity : AppCompatActivity() {
         val team = intent.getSerializableExtra("team") as Team
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
-        val fragment = PokemonFragment(Pokedex.pokedex.get(number), team, this)
+        val fragment = PokemonFragment(Pokedex.pokedex.get(number), team, this, false)
         transaction.replace(R.id.fragment_holder, fragment)
         transaction.commit()
 
