@@ -117,7 +117,7 @@ class OptionsAdapter(private val context: Context, private val options: ArrayLis
              }
 
          }else if(options.get(position).equals("Secondary Ability")){
-             var testView = LayoutInflater.from(context).inflate(R.layout.optionlist_primaryability, holder.optionContainer as ViewGroup, false)
+             var testView = LayoutInflater.from(context).inflate(R.layout.optionlist_secondaryability, holder.optionContainer as ViewGroup, false)
              holder.optionContainer.addView(testView)
              val array = arrayOfNulls<String>(Pokedex.abilities.size)
              ArrayList(Pokedex.abilities.values).toArray(array)
