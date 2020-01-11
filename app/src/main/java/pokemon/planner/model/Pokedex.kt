@@ -1,6 +1,12 @@
 package pokemon.planner.model
 
 import android.graphics.Bitmap
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import pokemon.planner.TeamSelectorActivity
 
 
 object Pokedex{
@@ -10,9 +16,12 @@ object Pokedex{
     var locationIds = mutableMapOf<Int, Int>()
     var abilities = mutableMapOf<Int, String>()
     var moves = mutableMapOf<Int, Move>()
-
     var smallImages = Array<Bitmap?>(pokedexSize) {null}
     var largeImages = Array<Bitmap?>(pokedexSize) {null}
+    var teams = ArrayList<Team>()
+    var databaseTeams = ArrayList<DatabaseTeam>()
+    var teamsReady = false
+
 
     //Create two dimensional array. The first index represents each pokemon in the pokedex.
     //The inner index is then the availability of that pokemon in each game.
@@ -26,6 +35,24 @@ object Pokedex{
     var encounters = Array<Array<ArrayList<Encounter>>>(22) {Array<ArrayList<Encounter>>(Pokedex.pokedexSize) {ArrayList<Encounter>()}}
 
 
+
+
+    fun syncTeamsToDatabase(){
+        databaseTeams.clear()
+        for(x in teams){
+            databaseTeams.add(x.returnDatabaseTeam())
+        }
+        var auth = FirebaseAuth.getInstance()
+        var user = auth.currentUser
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference(user!!.uid)
+
+        myRef.setValue(databaseTeams)
+        //val uid = user!!.uid
+        //myRef.child(uid).setValue(team.returnDatabaseTeam())
+        //myRef.child(uid).push().setValue("test")
+
+    }
 
     fun addPokemonToPokedex(pokemon: Pokemon){
 

@@ -26,6 +26,7 @@ class TeamActivity : FragmentActivity() {
     private lateinit var vp: ViewPager
     private lateinit var pagerAdapter: ScreenSlidePagerAdapter
     private lateinit var team: Team
+    private var teamNumber: Int = -1
     private lateinit var listOfPokemonButtons: Array<ImageButton>
     private var lastPressedBall: Int = 0
     private var lastViewedPokemon: Int = 0
@@ -34,7 +35,8 @@ class TeamActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_team)
         val intent = getIntent()
-        team = intent.getSerializableExtra("team") as Team
+        teamNumber = intent.getIntExtra("team", -1)
+        team = Pokedex.teams.get(teamNumber)
 
 
         listOfPokemonButtons = arrayOf(pokemon1, pokemon2, pokemon3, pokemon4, pokemon5, pokemon6)
@@ -46,7 +48,7 @@ class TeamActivity : FragmentActivity() {
                 if(team.pokemonList[Integer.parseInt(listOfPokemonButtons[x].tag.toString())].number.equals("-1")){
                     lastPressedBall = Integer.parseInt(listOfPokemonButtons[x].tag as String)
                     val intent = Intent(this, PokemonSearchActivity::class.java)
-                    intent.putExtra("team", team)
+                    intent.putExtra("team", teamNumber)
                     startActivityForResult(intent, 1)
                 }else{
                     vp.setCurrentItem(x+1, true)
@@ -108,9 +110,10 @@ class TeamActivity : FragmentActivity() {
                 team.pokemonList[lastPressedBall] = Pokedex.pokedex[data!!.getIntExtra("num", 0)]
                 createPokeballBar(team)
 
-
+                Pokedex.syncTeamsToDatabase()
                 var adapter = vp.adapter
                 adapter?.notifyDataSetChanged()
+                Pokedex.syncTeamsToDatabase()
                 finish()
                 startActivity(getIntent())
             }
@@ -120,7 +123,7 @@ class TeamActivity : FragmentActivity() {
 
     fun deletepokemon(){
         team.pokemonList[vp.currentItem-1] = team.dummyPokemon
-
+        Pokedex.syncTeamsToDatabase()
         finish()
         startActivity(getIntent())
     }

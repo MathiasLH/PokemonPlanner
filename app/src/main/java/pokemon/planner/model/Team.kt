@@ -22,4 +22,15 @@ class Team (
         }
         return size
     }
+
+    fun returnDatabaseTeam(): DatabaseTeam{
+        var pokemonNumbers = ArrayList<Int>()
+        pokemonNumbers.add(Integer.parseInt(pokemonList[0].number))
+        pokemonNumbers.add(Integer.parseInt(pokemonList[1].number))
+        pokemonNumbers.add(Integer.parseInt(pokemonList[2].number))
+        pokemonNumbers.add(Integer.parseInt(pokemonList[3].number))
+        pokemonNumbers.add(Integer.parseInt(pokemonList[4].number))
+        pokemonNumbers.add(Integer.parseInt(pokemonList[5].number))
+        return DatabaseTeam(name, version.readableName, gender, pokemonNumbers)
+    }
 }

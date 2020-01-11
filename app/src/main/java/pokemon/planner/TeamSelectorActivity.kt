@@ -1,6 +1,5 @@
 package pokemon.planner
 
-import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +9,11 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import pokemon.planner.adapters.TeamListAdapter
 import pokemon.planner.model.GameVersion
 import pokemon.planner.model.Pokedex
@@ -19,32 +23,26 @@ class TeamSelectorActivity : AppCompatActivity() {
     private lateinit var teamListLayoutManager: LinearLayoutManager
     private lateinit var teamList: ArrayList<Team>
     private lateinit var tl : RecyclerView
+    private lateinit var tla: TeamListAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_team_selector)
-
-
-
+        getTeamsFromDatabase()
         tl = findViewById<RecyclerView>(R.id.teamList)
         teamListLayoutManager = LinearLayoutManager(this)
         tl.layoutManager = teamListLayoutManager
 
-        teamList = intent.getSerializableExtra("listOfTeams") as ArrayList<Team>
-
-        var team = Team("testTeam", GameVersion.RED, true)
-        team.addPokemon(Pokedex.pokedex[6], 0)
-        team.addPokemon(Pokedex.pokedex[50], 1)
-        team.addPokemon(Pokedex.pokedex[100], 2)
-
-        teamList.add(team)
-        tl.adapter = TeamListAdapter(this, teamList)
+        teamList = Pokedex.teams
+        tla = TeamListAdapter(this, teamList)
+        tl.adapter = tla
         tl.addOnItemTouchListener(
             SearchResultActivity.RecyclerItemClickListenr(this, tl, object : SearchResultActivity.RecyclerItemClickListenr.OnItemClickListener {
                 override fun onItemClick(view: View, position: Int) {
 
                     val selectedItem = teamList.get(position)
                     val intent = Intent(this@TeamSelectorActivity, TeamActivity::class.java)
-                    intent.putExtra("team", selectedItem)
+                    intent.putExtra("team", position)
                     startActivity(intent)
                 }
 
@@ -121,6 +119,38 @@ class TeamSelectorActivity : AppCompatActivity() {
         }
     }
 
+
+    fun getTeamsFromDatabase(){
+        var auth = FirebaseAuth.getInstance()
+        var user = auth.currentUser
+        val database = FirebaseDatabase.getInstance()
+        val myRef = database.getReference(user!!.uid)
+        myRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val lines = snapshot!!.children
+                lines.forEach {
+                    var name = it.child("name").value as String
+                    var gender = it.child("gender").value as Boolean
+                    var version = Pokedex.stringToVersion(it.child("version").value as String)
+
+                    var team = Team(name, version, gender)
+                    for((index, pokemon) in it.child("pokemon").children.withIndex()){
+                        if((pokemon.value as Long).toInt() != -1){
+                            team.pokemonList[index] = Pokedex.pokedex.get((pokemon.value as Long).toInt()-1)
+                        }
+                    }
+                    Pokedex.teams.add(team)
+                }
+                teamList = Pokedex.teams
+                tla.notifyDataSetChanged()
+            }
+        })
+
+        println("yo")
+    }
+
     override fun onBackPressed() {
         setResult(420)
         finish()
@@ -130,6 +160,7 @@ class TeamSelectorActivity : AppCompatActivity() {
 
     private fun createTeam(name: String, version: GameVersion, gender: Boolean){
         teamList.add(Team(name, version, gender))
+        Pokedex.syncTeamsToDatabase()
         tl.adapter!!.notifyDataSetChanged()
     }
 }

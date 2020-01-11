@@ -23,7 +23,7 @@ class PokemonSearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_pokemon_search)
-        team = intent.getSerializableExtra("team") as Team
+        team = Pokedex.teams.get(intent.getIntExtra("team", -1))
         searchForm = SearchForm(
             "",
             "",

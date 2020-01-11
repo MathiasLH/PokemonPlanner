@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 import org.jetbrains.anko.startActivity
 import pokemon.planner.io.PokedexReader
 import pokemon.planner.model.GameVersion
@@ -48,8 +50,13 @@ class MainActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         if(currentUser != null){
             //user already logged in
-            getUserTeamsAndStartTeamActivity()
+            //Pokedex.getTeamsFromDatabase()
+
+            val intent = Intent(this, TeamSelectorActivity::class.java)
+            startActivityForResult(intent, 0)
         }
+
+
 
         var registerButton = findViewById<Button>(R.id.registerButton)
         registerButton.setOnClickListener {
@@ -63,30 +70,20 @@ class MainActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                       getUserTeamsAndStartTeamActivity()
-
+                        val intent = Intent(this, TeamSelectorActivity::class.java)
+                        startActivityForResult(intent, 0)
                     } else {
                         // If sign in fails, display a message to the user.
                         Toast.makeText(baseContext, "Authentication failed.",
                             Toast.LENGTH_SHORT).show()
+
 
                     }
                 }
         }
     }
 
-    private fun getUserTeamsAndStartTeamActivity() {
-        var team = Team("testTeam", GameVersion.RED, true)
-        team.addPokemon(Pokedex.pokedex[6], 0)
-        team.addPokemon(Pokedex.pokedex[50], 1)
-        team.addPokemon(Pokedex.pokedex[100], 2)
 
-        var listOfTeams = ArrayList<Team>()
-        listOfTeams.add(team)
-        val intent = Intent(this, TeamSelectorActivity::class.java)
-        intent.putExtra("listOfTeams", listOfTeams)
-        startActivityForResult(intent, 0)
-    }
 
     override fun onBackPressed() {
         super.onBackPressed()
@@ -96,7 +93,8 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(auth.currentUser != null && resultCode != 0){
-                getUserTeamsAndStartTeamActivity()
+            val intent = Intent(this, TeamSelectorActivity::class.java)
+            startActivityForResult(intent, 0)
         }
         if(resultCode == 420){
             finishAndRemoveTask()
