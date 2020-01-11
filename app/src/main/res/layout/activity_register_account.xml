@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".RegisterAccountActivity">
 
     <EditText
         android:id="@+id/emailText"
@@ -18,6 +18,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Register Account"
+        app:layout_constraintEnd_toEndOf="@+id/passwordRepeatText"
+        app:layout_constraintStart_toStartOf="@+id/passwordRepeatText"
+        app:layout_constraintTop_toBottomOf="@+id/passwordRepeatText" />
+
     <EditText
         android:id="@+id/passwordText"
         android:layout_width="wrap_content"
@@ -25,39 +35,21 @@
         android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="Password"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="@+id/emailText"
         app:layout_constraintStart_toStartOf="@+id/emailText"
         app:layout_constraintTop_toBottomOf="@+id/emailText" />
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="0dp"
+    <EditText
+        android:id="@+id/passwordRepeatText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Log in"
+        android:ems="10"
+        android:hint="Repeat password"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="@+id/passwordText"
         app:layout_constraintStart_toStartOf="@+id/passwordText"
         app:layout_constraintTop_toBottomOf="@+id/passwordText" />
 
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@null"
-        android:text="Register"
-        app:layout_constraintEnd_toEndOf="@+id/loginButton"
-        app:layout_constraintStart_toStartOf="@+id/loginButton"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
-
-    <Button
-        android:id="@+id/skipLoginButton"
-        android:layout_width="70dp"
-        android:layout_height="40dp"
-        android:background="@null"
-        android:text="skip login"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

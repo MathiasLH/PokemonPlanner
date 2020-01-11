@@ -72,6 +72,57 @@ object Pokedex{
         return moves[1] as Move
     }
 
+    fun stringToVersion(input: String): GameVersion {
+        when(input){
+            "Pokémon Red" -> return GameVersion.RED
+            "Pokémon Blue" -> return GameVersion.BLUE
+            "Pokémon Yellow" -> return GameVersion.YELLOW
+            "Pokémon Gold" -> return GameVersion.GOLD
+            "Pokémon Silver" -> return GameVersion.SILVER
+            "Pokémon Crystal" -> return GameVersion.CRYSTAL
+            "Pokémon Ruby" -> return GameVersion.RUBY
+            "Pokémon Sapphire" -> return GameVersion.SAPPHIRE
+            "Pokémon Fire Red" -> return GameVersion.FIRERED
+            "Pokémon Leaf Green" -> return GameVersion.LEAFGREEN
+            "Pokémon Emerald" -> return GameVersion.EMERALD
+            "Pokémon Diamond" -> return GameVersion.DIAMOND
+            "Pokémon Pearl" -> return GameVersion.PEARL
+            "Pokémon Platinum" -> return GameVersion.PLATINUM
+            "Pokémon Heart Gold" -> return GameVersion.HEARTGOLD
+            "Pokémon Soul Silver" -> return GameVersion.SOULSILVER
+            "Pokémon Black" -> return GameVersion.BLACK
+            "Pokémon White" -> return GameVersion.WHITE
+            "Pokémon Black 2" -> return GameVersion.BLACK2
+            "Pokémon White 2" -> return GameVersion.WHITE2
+            else -> return GameVersion.NONE
+        }
+    }
+
+    fun getVersionNames(): Array<String>{
+        return arrayOf(
+            GameVersion.RED.readableName,
+            GameVersion.BLUE.readableName,
+            GameVersion.YELLOW.readableName,
+            GameVersion.GOLD.readableName,
+            GameVersion.SILVER.readableName,
+            GameVersion.CRYSTAL.readableName,
+            GameVersion.RUBY.readableName,
+            GameVersion.SAPPHIRE.readableName,
+            GameVersion.FIRERED.readableName,
+            GameVersion.LEAFGREEN.readableName,
+            GameVersion.EMERALD.readableName,
+            GameVersion.DIAMOND.readableName,
+            GameVersion.PEARL.readableName,
+            GameVersion.PLATINUM.readableName,
+            GameVersion.HEARTGOLD.readableName,
+            GameVersion.SOULSILVER.readableName,
+            GameVersion.BLACK.readableName,
+            GameVersion.WHITE.readableName,
+            GameVersion.BLACK2.readableName,
+            GameVersion.WHITE2.readableName
+        )
+    }
+
 
 
 

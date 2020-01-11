@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "652096378401-1cfout6jc007e4p2bifu7lhj5q9nrfe9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pokemon.planner",
+            "certificate_hash": "7dd7c463dd7513094db3d90b4af6c79d580f7683"
+          }
+        },
+        {
           "client_id": "652096378401-nqe63cjsfqm8bsg4turnqbr4ceub8v32.apps.googleusercontent.com",
           "client_type": 3
         }
