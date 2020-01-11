@@ -7,29 +7,27 @@
 
     <EditText
         android:id="@+id/statMin2"
-        android:tag="defenseminInput"
         android:layout_width="75dp"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:ems="10"
         android:gravity="center_horizontal"
         android:hint="min"
         android:inputType="number"
+        android:tag="defenseminInput"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/hpLabel"
         app:layout_constraintTop_toBottomOf="@+id/hpLabel" />
 
     <EditText
         android:id="@+id/statMax2"
-        android:tag="defensemaxInput"
         android:layout_width="75dp"
         android:layout_height="50dp"
         android:ems="10"
         android:gravity="center_horizontal"
         android:hint="max"
         android:inputType="number"
+        android:tag="defensemaxInput"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView7"
         app:layout_constraintStart_toEndOf="@+id/textView7"
@@ -55,4 +53,27 @@
         android:text="Defense"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/divider6"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/statMin2" />
+    <ImageButton
+        android:id="@+id/deleteFilterButton"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@null"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/delete_icon" />
 </androidx.constraintlayout.widget.ConstraintLayout>
