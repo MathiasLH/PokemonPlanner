@@ -23,7 +23,7 @@
         android:layout_marginEnd="24dp"
         android:ems="10"
         android:hint="Enter name here..."
-        android:inputType="textPersonName"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.899"
         app:layout_constraintStart_toStartOf="@+id/nameLabel"

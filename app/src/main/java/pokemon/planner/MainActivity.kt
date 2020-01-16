@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
 import pokemon.planner.io.PokedexReader
 import pokemon.planner.model.GameVersion
@@ -33,27 +35,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Start loading all the dataz
-        val pokedexreader = PokedexReader(this)
-        pokedexreader.readPokedexData()
-        val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
-        val editor = sharedPref.edit()
-        if(sharedPref.getBoolean("init", true)){
-            editor.putBoolean("init", false)
-            editor.apply()
-            pokedexreader.downloadImages()
-        }else{
-            pokedexreader.loadImages()
-        }
-
         auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
         if(currentUser != null){
             //user already logged in
             //Pokedex.getTeamsFromDatabase()
-
             val intent = Intent(this, TeamSelectorActivity::class.java)
             startActivityForResult(intent, 0)
+        }else{
+            emailText.visibility = View.VISIBLE
+            passwordText.visibility = View.VISIBLE
+            loginButton.visibility = View.VISIBLE
+            registerButton.visibility = View.VISIBLE
         }
 
 
@@ -66,6 +59,12 @@ class MainActivity : AppCompatActivity() {
 
         var loginButton = findViewById<Button>(R.id.loginButton)
         loginButton.setOnClickListener {
+            emailText.visibility = View.INVISIBLE
+            passwordText.visibility = View.INVISIBLE
+            loginButton.visibility = View.INVISIBLE
+            registerButton.visibility = View.INVISIBLE
+            loadingIcon.visibility = View.VISIBLE
+            loadingText.visibility = View.VISIBLE
             auth.signInWithEmailAndPassword(findViewById<EditText>(R.id.emailText).text.toString(), findViewById<EditText>(R.id.passwordText).text.toString())
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
@@ -74,6 +73,12 @@ class MainActivity : AppCompatActivity() {
                         startActivityForResult(intent, 0)
                     } else {
                         // If sign in fails, display a message to the user.
+                        emailText.visibility = View.VISIBLE
+                        passwordText.visibility = View.VISIBLE
+                        loginButton.visibility = View.VISIBLE
+                        registerButton.visibility = View.VISIBLE
+                        loadingIcon.visibility = View.INVISIBLE
+                        loadingText.visibility = View.INVISIBLE
                         Toast.makeText(baseContext, "Authentication failed.",
                             Toast.LENGTH_SHORT).show()
 
@@ -82,6 +87,24 @@ class MainActivity : AppCompatActivity() {
                 }
         }
     }
+
+    override fun onStart() {
+        //Start loading all the dataz
+        val pokedexreader = PokedexReader(this)
+        pokedexreader.readPokedexData()
+        val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
+        val editor = sharedPref.edit()
+        if(sharedPref.getBoolean("init", true)){
+            editor.putBoolean("init", false)
+            editor.apply()
+            pokedexreader.downloadImages()
+        }else{
+            pokedexreader.loadImages()
+        }
+        super.onStart()
+    }
+
+
 
 
 

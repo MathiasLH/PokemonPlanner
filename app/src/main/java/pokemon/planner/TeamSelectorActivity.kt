@@ -14,6 +14,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_team_selector.*
 import pokemon.planner.adapters.TeamListAdapter
 import pokemon.planner.model.GameVersion
 import pokemon.planner.model.Pokedex
@@ -143,6 +144,9 @@ class TeamSelectorActivity : AppCompatActivity() {
                     }
                     Pokedex.teams.add(team)
                 }
+                loadingIcon.visibility = View.INVISIBLE
+                loadingText.visibility = View.INVISIBLE
+                teamButton.visibility = View.VISIBLE
                 teamList = Pokedex.teams
                 tla.notifyDataSetChanged()
             }
