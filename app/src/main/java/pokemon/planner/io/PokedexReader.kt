@@ -383,12 +383,15 @@ class PokedexReader(private val context: Context) {
 
     fun downloadImages(){
 
-        for(pokemon in Pokedex.pokedex){
+        downloadSmallImages()
+        downloadLargeImages()
+
+        /*for(pokemon in Pokedex.pokedex){
             downloadSmallImages(pokemon)
         }
         for(pokemon in Pokedex.pokedex){
             downloadLargeImages(pokemon)
-        }
+        }*/
 
 
 
@@ -418,34 +421,39 @@ class PokedexReader(private val context: Context) {
         }
 
     }
-    private fun downloadSmallImages(pokemon: Pokemon) {
+    private fun downloadSmallImages(/*pokemon: Pokemon*/) {
         doAsync {
-            var pokemonNumberWithZeroes: String
-            if(pokemon.number.length == 1){
-                pokemonNumberWithZeroes = "00" + pokemon.number
-            }else if (pokemon.number.length == 2){
-                pokemonNumberWithZeroes = "0" + pokemon.number
-            }else{
-                pokemonNumberWithZeroes = pokemon.number
-            }
-            var url: String = "https://www.serebii.net/pokedex-xy/icon/" + pokemonNumberWithZeroes +".png"
-            val smallImage = getBitmapFromURL(url);
-            saveFile(smallImage, "small" + pokemon.number)
-            Pokedex.smallImages[Integer.parseInt(pokemon.number)-1] = smallImage
-            //smallImages.add(Integer.parseInt(pokemon.number)-1, getBitmapFromURL(url))
-            uiThread {
+            for(pokemon in Pokedex.pokedex){
+                var pokemonNumberWithZeroes: String
+                if(pokemon.number.length == 1){
+                    pokemonNumberWithZeroes = "00" + pokemon.number
+                }else if (pokemon.number.length == 2){
+                    pokemonNumberWithZeroes = "0" + pokemon.number
+                }else{
+                    pokemonNumberWithZeroes = pokemon.number
+                }
+                var url: String = "https://www.serebii.net/pokedex-xy/icon/" + pokemonNumberWithZeroes +".png"
+                val smallImage = getBitmapFromURL(url);
+                saveFile(smallImage, "small" + pokemon.number)
+                Pokedex.smallImages[Integer.parseInt(pokemon.number)-1] = smallImage
+                //smallImages.add(Integer.parseInt(pokemon.number)-1, getBitmapFromURL(url))
+                uiThread {
+                }
             }
         }
     }
 
-    private fun downloadLargeImages(pokemon: Pokemon) {
+    private fun downloadLargeImages(/*pokemon: Pokemon*/) {
         doAsync {
-            var url: String = "https://www.serebii.net/art/th/"+ pokemon.number + ".png"
-            val largeImage = getBitmapFromURL(url)
-            saveFile(largeImage, "large"+pokemon.number)
-            Pokedex.largeImages[Integer.parseInt(pokemon.number)-1] = largeImage
-            uiThread {
+            for(pokemon in Pokedex.pokedex){
+                var url: String = "https://www.serebii.net/art/th/"+ pokemon.number + ".png"
+                val largeImage = getBitmapFromURL(url)
+                saveFile(largeImage, "large"+pokemon.number)
+                Pokedex.largeImages[Integer.parseInt(pokemon.number)-1] = largeImage
+                uiThread {
+                }
             }
+
         }
     }
 

@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import pokemon.planner.io.PokedexReader
 import pokemon.planner.model.GameVersion
@@ -47,6 +48,8 @@ class MainActivity : AppCompatActivity() {
             passwordText.visibility = View.VISIBLE
             loginButton.visibility = View.VISIBLE
             registerButton.visibility = View.VISIBLE
+            loadingIcon2.visibility = View.INVISIBLE
+            loadingText2.visibility = View.INVISIBLE
         }
 
 
@@ -89,17 +92,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStart() {
-        //Start loading all the dataz
-        val pokedexreader = PokedexReader(this)
-        pokedexreader.readPokedexData()
-        val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
-        val editor = sharedPref.edit()
-        if(sharedPref.getBoolean("init", true)){
-            editor.putBoolean("init", false)
-            editor.apply()
-            pokedexreader.downloadImages()
-        }else{
-            pokedexreader.loadImages()
+        doAsync {
+            //Start loading all the dataz
+            val pokedexreader = PokedexReader(baseContext)
+            pokedexreader.readPokedexData()
+            val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
+            val editor = sharedPref.edit()
+            if(sharedPref.getBoolean("init", true)){
+                editor.putBoolean("init", false)
+                editor.apply()
+                pokedexreader.downloadImages()
+            }else{
+                pokedexreader.loadImages()
+            }
         }
         super.onStart()
     }
