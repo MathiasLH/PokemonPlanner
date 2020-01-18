@@ -52,8 +52,6 @@ class MainActivity : AppCompatActivity() {
             loadingText2.visibility = View.INVISIBLE
         }
 
-
-
         var registerButton = findViewById<Button>(R.id.registerButton)
         registerButton.setOnClickListener {
             val intent = Intent(this, RegisterAccountActivity::class.java)
@@ -92,26 +90,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onStart() {
-        doAsync {
-            //Start loading all the dataz
-            val pokedexreader = PokedexReader(baseContext)
-            pokedexreader.readPokedexData()
-            val sharedPref: SharedPreferences = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
-            val editor = sharedPref.edit()
-            if(sharedPref.getBoolean("init", true)){
-                editor.putBoolean("init", false)
-                editor.apply()
-                pokedexreader.downloadImages()
-            }else{
-                pokedexreader.loadImages()
-            }
-        }
+        Pokedex.readPokedexData(this, getSharedPreferences(PREF_NAME, PRIVATE_MODE))
         super.onStart()
     }
-
-
-
-
 
     override fun onBackPressed() {
         super.onBackPressed()

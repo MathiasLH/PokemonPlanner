@@ -64,7 +64,7 @@ class PokemonSearchActivity : AppCompatActivity() {
         possibleOptions.addAll(Pokedex.getGenSpecificStatNames(team))
 
         var selectedOptions = ArrayList<String>()
-
+        insertPoint = findViewById(R.id.insertPoint)
         addButton.setOnClickListener {
             var optionSelectorView =
                 LayoutInflater.from(this).inflate(R.layout.optionlist_default, null)
@@ -73,7 +73,7 @@ class PokemonSearchActivity : AppCompatActivity() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             var spinner = optionSelectorView.findViewById<Spinner>(R.id.optionsSpinner3)
             spinner.adapter = adapter
-            insertPoint = findViewById(R.id.insertPoint)
+
             var transformButton = optionSelectorView.findViewById<Button>(R.id.transformButton)
             transformButton.setOnClickListener {
                 transformView(

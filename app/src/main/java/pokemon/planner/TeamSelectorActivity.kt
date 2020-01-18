@@ -108,7 +108,7 @@ class TeamSelectorActivity : AppCompatActivity() {
             mBuilder.setPositiveButton("Ok", object : DialogInterface.OnClickListener {
                 override fun onClick(dialog: DialogInterface, id: Int) {
                     val name = mView.findViewById<TextView>(R.id.nameText).text.toString()
-                    val version = Pokedex.stringToVersion(versionSpinner.selectedItem.toString())
+                    val version = Pokedex.versionNameToVersion(versionSpinner.selectedItem.toString())
 
                     val isMale = mView.findViewById<RadioButton>(R.id.maleRadioButton).isChecked
                     createTeam(name, version, isMale)
@@ -134,7 +134,7 @@ class TeamSelectorActivity : AppCompatActivity() {
                 lines.forEach {
                     var name = it.child("name").value as String
                     var gender = it.child("gender").value as Boolean
-                    var version = Pokedex.stringToVersion(it.child("version").value as String)
+                    var version = Pokedex.versionNameToVersion(it.child("version").value as String)
 
                     var team = Team(name, version, gender)
                     for((index, pokemon) in it.child("pokemon").children.withIndex()){

@@ -1,12 +1,16 @@
 package pokemon.planner.model
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import org.jetbrains.anko.doAsync
 import pokemon.planner.TeamSelectorActivity
+import pokemon.planner.io.PokedexReader
 
 
 object Pokedex{
@@ -34,8 +38,117 @@ object Pokedex{
 
     var encounters = Array<Array<ArrayList<Encounter>>>(22) {Array<ArrayList<Encounter>>(Pokedex.pokedexSize) {ArrayList<Encounter>()}}
 
+    fun readPokedexData(context: Context, sharedPref: SharedPreferences){
+        doAsync {
+            //Start loading all the dataz
+            val pokedexreader = PokedexReader(context)
+            pokedexreader.readPokedexData()
+            val editor = sharedPref.edit()
+            if(sharedPref.getBoolean("init", true)){
+                editor.putBoolean("init", false)
+                editor.apply()
+                pokedexreader.downloadImages()
+            }else{
+                pokedexreader.loadImages()
+            }
+        }
+    }
 
+    fun searchPokemon(searchForm: SearchForm, team: Team): ArrayList<Pokemon>{
+        var pokemonList = getPokemonList(team.version.pokemonList)
 
+        var pokemonList2: List<Pokemon> = pokemonList
+
+        //Below are all the filter conditions.
+        //It checks whether or not a field is filled in, and only then applies each filter.
+        //It also checks for stat ranges, if there is a minimum, a maximum or both, and applies the
+        //correct filter for each situation.
+
+        //Name
+        if(!searchForm.name.equals("")){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.name.toLowerCase().contains(searchForm.name.toLowerCase()) }
+        }
+
+        //Number
+        if(!searchForm.number.equals("")){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.number.equals(searchForm.number) }
+        }
+
+        //type1
+        if(!searchForm.type1.equals(TYPE.NONE)){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.typePrimary.equals(searchForm.type1) }
+        }
+
+        //type2
+        if(!searchForm.type2.equals(TYPE.NONE)){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.typeSecondary.equals(searchForm.type2) }
+        }
+
+        if(searchForm.hpMin != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[0] >= searchForm.hpMin }
+        }
+
+        if(searchForm.hpMax != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[0] <= searchForm.hpMax }
+        }
+
+        if(searchForm.attackMin != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[1] >= searchForm.attackMin }
+        }
+
+        if(searchForm.attackMax != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[1] <= searchForm.attackMax }
+        }
+        if(searchForm.defenseMin != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[2] >= searchForm.defenseMin }
+        }
+
+        if(searchForm.defenseMax != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[2] <= searchForm.defenseMax }
+        }
+        if(searchForm.specialMin != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.gen1Stats[3] >= searchForm.specialMin }
+        }
+
+        if(searchForm.specialMax != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.gen1Stats[3] <= searchForm.specialMax }
+        }
+
+        if(searchForm.spAttackMin != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[3] >= searchForm.hpMin }
+        }
+
+        if(searchForm.spAttackMax != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[3] <= searchForm.hpMax }
+        }
+
+        if(searchForm.spDefenseMin != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[4] >= searchForm.spDefenseMin }
+        }
+
+        if(searchForm.spDefenseMax != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[4] <= searchForm.spDefenseMax }
+        }
+        if(searchForm.speedMin != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[5] >= searchForm.hpMin }
+        }
+
+        if(searchForm.speedMax != 0){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[5] <= searchForm.hpMax }
+        }
+        if(!searchForm.ability1.equals("")){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.abilityPrimary.equals(searchForm.ability1) }
+        }
+        if(!searchForm.ability2.equals("")){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.abilitySecondary.equals(searchForm.ability2) }
+        }
+        if(searchForm.move.id != -1){
+            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.learnSets[team.version.versionGroupId-1].isLearnable(searchForm.move) }
+            println("yo")
+        }
+
+        return ArrayList(pokemonList2)
+    }
 
     fun syncTeamsToDatabase(){
         databaseTeams.clear()
@@ -51,11 +164,9 @@ object Pokedex{
         //val uid = user!!.uid
         //myRef.child(uid).setValue(team.returnDatabaseTeam())
         //myRef.child(uid).push().setValue("test")
-
     }
 
     fun addPokemonToPokedex(pokemon: Pokemon){
-
         this.pokedex.add(pokemon)
     }
 
@@ -80,6 +191,7 @@ object Pokedex{
         }
         return statNames
     }
+
     fun getGenSpecificTypes(team: Team):ArrayList<TYPE>{
         if(team.version.generation == 1){
             return arrayListOf(TYPE.NONE, TYPE.NORMAL, TYPE.FIGHTING, TYPE.FLYING, TYPE.POISON, TYPE.GROUND, TYPE.ROCK, TYPE.BUG, TYPE.GHOST, TYPE.FIRE, TYPE.WATER, TYPE.GRASS, TYPE.ELECTRIC, TYPE.PSYCHIC, TYPE.ICE, TYPE.DRAGON)
@@ -99,7 +211,7 @@ object Pokedex{
         return moves[1] as Move
     }
 
-    fun stringToVersion(input: String): GameVersion {
+    fun versionNameToVersion(input: String): GameVersion {
         when(input){
             "Pokémon Red" -> return GameVersion.RED
             "Pokémon Blue" -> return GameVersion.BLUE

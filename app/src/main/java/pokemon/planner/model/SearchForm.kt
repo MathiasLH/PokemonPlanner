@@ -28,6 +28,4 @@ class SearchForm(
     var move: Move,
     var version: GameVersion
     ) : Serializable{
-
-
 }

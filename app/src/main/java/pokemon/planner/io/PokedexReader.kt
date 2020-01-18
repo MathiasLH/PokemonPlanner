@@ -115,6 +115,7 @@ class PokedexReader(private val context: Context) {
             println("Reading gen 1 stats")
         }
 
+        //read evolutionLevels
         context.assets.open("pokemon_evolution.csv").bufferedReader().use {
             it.readLine()
             for(i in 0..403){
@@ -134,6 +135,7 @@ class PokedexReader(private val context: Context) {
             println("reading evolutions")
         }
 
+        //read info about locations
         context.assets.open("locations.csv").bufferedReader().use {
             it.readLine()
             for(i in 0..781){
@@ -145,7 +147,6 @@ class PokedexReader(private val context: Context) {
             }
 
         }
-
         context.assets.open("location_areas.csv").bufferedReader().use {
             it.readLine()
             for(i in 0..683){
@@ -167,7 +168,7 @@ class PokedexReader(private val context: Context) {
                     Pokedex.moves[Integer.parseInt(inputArray[0])] = Move(inputArray[1].replace('-', ' '), Integer.parseInt(inputArray[0]), typeIDtoTYPE(inputArray[3]),inputArray[9])
                 }
             }
-            println("reading locations")
+            println("reading moves")
         }
 
         context.assets.open("pokemon_moves.csv").bufferedReader().use {

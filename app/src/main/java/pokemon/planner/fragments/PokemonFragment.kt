@@ -78,32 +78,32 @@ class PokemonFragment(private var pokemon: Pokemon, private var team: Team, priv
                 var type1 = view.findViewById<TextView>(R.id.type1Text)
                 var type2 = view.findViewById<TextView>(R.id.type2Text)
 
-                if(pokemon.secondaryType.equals(TYPE.NONE)){
+                if(pokemon.typeSecondary.equals(TYPE.NONE)){
                     //only has one type
                     card1.visibility = View.GONE
-                    type2.setText(pokemon.primaryType.toString().substring(0, 3))
+                    type2.setText(pokemon.typePrimary.toString().substring(0, 3))
                     val background = GradientDrawable()
                     background.setStroke(5, Color.GRAY)
                     background.cornerRadius = 8f
-                    background.setColor(Color.parseColor(pokemon.primaryType.color))
+                    background.setColor(Color.parseColor(pokemon.typePrimary.color))
                     card2.background = background
                 }else{
                     //two types
                     card1.visibility = View.VISIBLE
                     card2.visibility = View.VISIBLE
-                    type1.setText(pokemon.primaryType.toString().substring(0, 3))
-                    type2.setText(pokemon.secondaryType.toString().substring(0, 3))
+                    type1.setText(pokemon.typePrimary.toString().substring(0, 3))
+                    type2.setText(pokemon.typeSecondary.toString().substring(0, 3))
 
                     val background1 = GradientDrawable()
                     background1.setStroke(5, Color.GRAY)
                     background1.cornerRadius = 8f
-                    background1.setColor(Color.parseColor(pokemon.primaryType.color))
+                    background1.setColor(Color.parseColor(pokemon.typePrimary.color))
                     card1.background = background1
 
                     val background2 = GradientDrawable()
                     background2.setStroke(5, Color.GRAY)
                     background2.cornerRadius = 8f
-                    background2.setColor(Color.parseColor(pokemon.secondaryType.color))
+                    background2.setColor(Color.parseColor(pokemon.typeSecondary.color))
 
                     card2.background = background2
                     card1.background = background1

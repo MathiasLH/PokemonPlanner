@@ -25,7 +25,7 @@ class SearchResultActivity : AppCompatActivity() {
         searchResultLayoutManager = LinearLayoutManager(this)
         var searchResults = findViewById<RecyclerView>(R.id.resultRecyclerView)
         searchResults.layoutManager = searchResultLayoutManager
-        var filteredListofPokemon = searchPokemon(searchForm)
+        var filteredListofPokemon = Pokedex.searchPokemon(searchForm, team)
         searchResults.adapter = SearchResultAdapter(this, filteredListofPokemon)
 
         searchResults.addOnItemTouchListener(RecyclerItemClickListenr(this, searchResults, object : RecyclerItemClickListenr.OnItemClickListener{
@@ -67,104 +67,6 @@ class SearchResultActivity : AppCompatActivity() {
         intent.putExtra("num", position)
         intent.putExtra("team", team)
         startActivityForResult(intent, 1)
-    }
-
-
-
-    fun searchPokemon(searchForm: SearchForm): ArrayList<Pokemon>{
-        var pokemonList = Pokedex.getPokemonList(team.version.pokemonList)
-
-        var pokemonList2: List<Pokemon> = pokemonList
-
-        //Below are all the filter conditions.
-        //It checks whether or not a field is filled in, and only then applies each filter.
-        //It also checks for stat ranges, if there is a minimum, a maximum or both, and applies the
-        //correct filter for each situation.
-
-        //Name
-        if(!searchForm.name.equals("")){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.name.toLowerCase().contains(searchForm.name.toLowerCase()) }
-        }
-
-        //Number
-        if(!searchForm.number.equals("")){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.number.equals(searchForm.number) }
-        }
-
-        //type1
-        if(!searchForm.type1.equals(TYPE.NONE)){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.primaryType.equals(searchForm.type1) }
-        }
-
-        //type2
-        if(!searchForm.type2.equals(TYPE.NONE)){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.secondaryType.equals(searchForm.type2) }
-        }
-
-        if(searchForm.hpMin != 0){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[0] >= searchForm.hpMin }
-        }
-
-        if(searchForm.hpMax != 0){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[0] <= searchForm.hpMax }
-        }
-
-        if(searchForm.attackMin != 0){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[1] >= searchForm.attackMin }
-        }
-
-        if(searchForm.attackMax != 0){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[1] <= searchForm.attackMax }
-        }
-        if(searchForm.defenseMin != 0){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[2] >= searchForm.defenseMin }
-        }
-
-        if(searchForm.defenseMax != 0){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[2] <= searchForm.defenseMax }
-        }
-        if(searchForm.specialMin != 0){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.gen1Stats[3] >= searchForm.specialMin }
-        }
-
-        if(searchForm.specialMax != 0){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.gen1Stats[3] <= searchForm.specialMax }
-        }
-
-        if(searchForm.spAttackMin != 0){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[3] >= searchForm.hpMin }
-        }
-
-        if(searchForm.spAttackMax != 0){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[3] <= searchForm.hpMax }
-        }
-
-        if(searchForm.spDefenseMin != 0){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[4] >= searchForm.spDefenseMin }
-        }
-
-        if(searchForm.spDefenseMax != 0){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[4] <= searchForm.spDefenseMax }
-        }
-        if(searchForm.speedMin != 0){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[5] >= searchForm.hpMin }
-        }
-
-        if(searchForm.speedMax != 0){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.stats[5] <= searchForm.hpMax }
-        }
-        if(!searchForm.ability1.equals("")){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.ability1.equals(searchForm.ability1) }
-        }
-        if(!searchForm.ability2.equals("")){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.ability2.equals(searchForm.ability2) }
-        }
-        if(searchForm.move.id != -1){
-            pokemonList2 = pokemonList2.filter { pokemon -> pokemon.learnSets[team.version.versionGroupId].isLearnable(searchForm.move) }
-            println("yo")
-        }
-
-        return ArrayList(pokemonList2)
     }
 
     //https://stackoverflow.com/questions/29424944/recyclerview-itemclicklistener-in-kotlin/51223101#51223101

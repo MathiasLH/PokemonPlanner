@@ -8,10 +8,10 @@ class Pokemon(
     val name: String,
     val stats : Array<Int>,//hp, atk, dfns, sp. atk, sp. dfns, speed
     val gen1Stats : Array<Int>,//hp, atk, defense, special, speed
-    val primaryType: TYPE,
-    val secondaryType: TYPE,
-    val ability1: String,
-    val ability2: String,
+    val typePrimary: TYPE,
+    val typeSecondary: TYPE,
+    val abilityPrimary: String,
+    val abilitySecondary: String,
     val minLevel: Int,
     val evolvesFrom: ArrayList<Int>,
     val evolvesTo: ArrayList<Int>,

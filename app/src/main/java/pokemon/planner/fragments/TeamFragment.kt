@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,11 +37,11 @@ class TeamFragment(private var team: Team): Fragment() {
         var typesInTeam = ArrayList<TYPE>()
 
         for(pokemon in team.pokemonList){
-            if(pokemon.primaryType != TYPE.NONE && !typesInTeam.contains(pokemon.primaryType)){
-                typesInTeam.add(pokemon.primaryType)
+            if(pokemon.typePrimary != TYPE.NONE && !typesInTeam.contains(pokemon.typePrimary)){
+                typesInTeam.add(pokemon.typePrimary)
             }
-            if(pokemon.secondaryType != TYPE.NONE && !typesInTeam.contains(pokemon.secondaryType)){
-                typesInTeam.add(pokemon.secondaryType)
+            if(pokemon.typeSecondary != TYPE.NONE && !typesInTeam.contains(pokemon.typeSecondary)){
+                typesInTeam.add(pokemon.typeSecondary)
             }
         }
 
