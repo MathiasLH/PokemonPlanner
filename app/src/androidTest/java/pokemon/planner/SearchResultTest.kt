@@ -116,6 +116,41 @@ class SearchResultTest {
         }
     }
 
+    @Test
+    fun searchForAbilityTest(){
+        var searchForm = SearchForm(
+            "",
+            "",
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            TYPE.NONE,
+            TYPE.NONE,
+            "overgrow",
+            "",
+            Move("", -1, TYPE.NONE, ""),
+            GameVersion.NONE
+        )
+        var searchResults = Pokedex.searchPokemon(searchForm, Team("testTeam", GameVersion.RED, true))
+        for(pokemon in searchResults){
+            assertEquals(pokemon.abilityPrimary, "overgrow")
+        }
+
+    }
+
     companion object {
         @BeforeClass
         @JvmStatic
